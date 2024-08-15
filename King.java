@@ -21,7 +21,7 @@ public class King {
             board[destinationRow][destinationColumn].charAt(1) == 'K') {
             System.out.println("Invalid move");
         } else {
-            board[this.positionRow][this.positionColumn] = "00";
+            board[this.positionRow][this.positionColumn] = "000";
             this.positionRow = destinationRow;
             this.positionColumn = destinationColumn;
             board[destinationRow][destinationColumn] = this.icon;

@@ -85,7 +85,7 @@ public class Pawn {
                 }
             }
             if (legalMove) {
-                board[this.positionRow][this.positionColumn] = "00";
+                board[this.positionRow][this.positionColumn] = "000";
                 this.positionRow = destinationRow;
                 this.positionColumn = destinationColumn;
                 board[destinationRow][destinationColumn] = this.icon;

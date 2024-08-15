@@ -48,7 +48,7 @@ public class Rook {
             }
             for (int i = this.positionRow; i >= 0; i--) {
                 if (board[i][this.positionColumn].charAt(0) == this.icon.charAt(0)) {
-                    if (i > this.positionRow) {
+                    if (i < this.positionRow) {
                         break;
                     }
                 } else if (board[i][this.positionColumn].charAt(0) == this.enemy.charAt(0)) {
@@ -81,7 +81,7 @@ public class Rook {
             }
             for (int i = this.positionColumn; i >= 0; i--) {
                 if (board[this.positionRow][i].charAt(0) == this.icon.charAt(0)) {
-                    if (i > this.positionColumn) {
+                    if (i < this.positionColumn) {
                         break;
                     }
                 } else if (board[this.positionRow][i].charAt(0) == this.enemy.charAt(0)) {
@@ -105,7 +105,7 @@ public class Rook {
                 }
             }
             if (legalMove) {
-                board[this.positionRow][this.positionColumn] = "00";
+                board[this.positionRow][this.positionColumn] = "000";
                 this.positionRow = destinationRow;
                 this.positionColumn = destinationColumn;
                 board[destinationRow][destinationColumn] = this.icon;
