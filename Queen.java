@@ -1,4 +1,4 @@
-import java.util.Arrays;
+package Chess;
 
 public class Queen {
     private String icon;

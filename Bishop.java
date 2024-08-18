@@ -1,3 +1,5 @@
+package Chess;
+
 public class Bishop {
     private String icon;
     private String enemy;

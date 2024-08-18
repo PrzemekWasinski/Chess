@@ -1,3 +1,5 @@
+package Chess;
+
 public class King {
     private String icon;
     private int value;

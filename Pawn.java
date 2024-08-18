@@ -1,3 +1,5 @@
+package Chess;
+
 import java.util.Scanner;
 
 public class Pawn {

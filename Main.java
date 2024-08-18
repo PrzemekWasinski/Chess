@@ -1,3 +1,5 @@
+package Chess;
+
 import java.util.Scanner;
 
 public class Main {
@@ -74,7 +76,7 @@ public class Main {
         }
 
         Rook [] blackRooks = new Rook[10];
-        for (int i = 0; i < 0; i++) {
+        for (int i = 0; i < 2; i++) {
             blackRooks[i] = new Rook("BR" + Integer.toString(i), "W", 5, 0, rookColumns[i], false);
             board[blackRooks[i].getPositionRow()][blackRooks[i].getPositionColumn()] = blackRooks[i].getIcon();
         }
@@ -82,12 +84,12 @@ public class Main {
         //Spawn pawns
         Pawn [] whitePawns = new Pawn[8];
         for (int i = 0; i < board.length; i++) {
-            whitePawns[i] = new Pawn("WP" + Integer.toString(i), "B", 1, 2, i, false);
+            whitePawns[i] = new Pawn("WP" + Integer.toString(i), "B", 1, 6, i, false);
             board[whitePawns[i].getPositionRow()][whitePawns[i].getPositionColumn()] = whitePawns[i].getIcon();
         }
 
         Pawn [] blackPawns = new Pawn[8];
-        for (int i = 0; i < 0; i++) {
+        for (int i = 0; i < 8; i++) {
             blackPawns[i] = new Pawn("BP" + Integer.toString(i), "W", 1, 1, i, false);
             board[blackPawns[i].getPositionRow()][blackPawns[i].getPositionColumn()] = blackPawns[i].getIcon();
         }
@@ -115,12 +117,15 @@ public class Main {
 
             // Check if it's white or black's turn
             boolean whiteTurn = false;
+            String turn = "";
             if (moves % 2 == 0) {
-                whiteTurn = true;
+                whiteTurn = false;
+                turn = "Black's turn";
             } else {
                 whiteTurn = true;
+                turn = "White's turn";
             }
-            System.out.println(whiteTurn);
+            System.out.println(turn);
 
             // Get the user's selected piece column position
             int selectedColumn = 0;

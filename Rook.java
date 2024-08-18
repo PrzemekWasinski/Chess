@@ -1,3 +1,5 @@
+package Chess;
+
 public class Rook {
     private String icon;
     private String enemy;

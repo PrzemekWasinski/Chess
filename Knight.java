@@ -1,3 +1,5 @@
+package Chess;
+
 public class Knight {
     private String icon;
     private String enemy;
