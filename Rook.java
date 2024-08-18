@@ -4,21 +4,23 @@ public class Rook {
     private int value;
     private int positionRow;
     private int positionColumn;
+    private boolean moved;
 
-    Rook(String icon, String enemy, int value, int positionRow, int positionColumn) {
+    Rook(String icon, String enemy, int value, int positionRow, int positionColumn, boolean moved) {
         this.icon = icon;
         this.enemy = enemy;
         this.value = value;
         this.positionRow = positionRow;
         this.positionColumn = positionColumn;
+        this.moved = moved;
     }
 
     void move(String[][] board, int destinationRow, int destinationColumn) {
         destinationRow -= 1;
         destinationColumn -= 1;
         if (destinationRow > 7 || destinationRow < 0 || destinationColumn > 7 || destinationColumn < 0 ||
-                board[destinationRow][destinationColumn].charAt(0) == this.icon.charAt(0) ||
-                board[destinationRow][destinationColumn].charAt(1) == 'K') {
+            board[destinationRow][destinationColumn].charAt(0) == this.icon.charAt(0) ||
+            board[destinationRow][destinationColumn].charAt(1) == 'K') {
             System.out.println("Invalid move");
         } else {
             int[][] availableMoves = new int[16][2];
@@ -109,6 +111,7 @@ public class Rook {
                 this.positionRow = destinationRow;
                 this.positionColumn = destinationColumn;
                 board[destinationRow][destinationColumn] = this.icon;
+                this.moved = true;
             } else {
                 System.out.println("Invalid move");
             }
@@ -133,5 +136,9 @@ public class Rook {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public boolean hasMoved() {
+        return moved;
     }
 }

@@ -109,6 +109,7 @@ public class Bishop {
                     }
                 }
             }
+
             boolean legalMove = false;
             for (int i = 0; i < availableMoves.length; i++) {
                 if (availableMoves[i][0] == destinationRow) {

@@ -3,12 +3,14 @@ public class King {
     private int value;
     private int positionRow;
     private int positionColumn;
+    private boolean moved;
 
-    King(String icon, int value, int positionRow, int positionColumn) {
+    King(String icon, int value, int positionRow, int positionColumn, boolean moved) {
         this.icon = icon;
         this.value = value;
         this.positionRow = positionRow;
         this.positionColumn = positionColumn;
+        this.moved = moved;
     }
 
     void move(String[][] board, int destinationRow, int destinationColumn) {
@@ -25,6 +27,43 @@ public class King {
             this.positionRow = destinationRow;
             this.positionColumn = destinationColumn;
             board[destinationRow][destinationColumn] = this.icon;
+            this.moved = true;
+        }
+    }
+
+    void castle(String[][] board, boolean kingSideCastle, Rook[] whiteRooks, Rook[] blackRooks) {
+        if (kingSideCastle && !whiteRooks[0].hasMoved() && this.icon.charAt(0) == 'W' &&
+            board[this.positionRow][this.positionColumn + 1] == "000" &&
+            board[this.positionRow][this.positionColumn + 2] == "000") {
+            board[this.positionRow][this.positionColumn] = "000";
+            board[7][6] = this.icon;
+            board[7][7] = "000";
+            board[7][5] = "WR1";
+        } else if (!kingSideCastle && !whiteRooks[1].hasMoved() && this.icon.charAt(0) == 'W' &&
+            board[this.positionRow][this.positionColumn - 1] == "000" &&
+            board[this.positionRow][this.positionColumn - 2] == "000" &&
+            board[this.positionRow][this.positionColumn - 3] == "000") {
+            board[this.positionRow][this.positionColumn] = "000";
+            board[7][2] = this.icon;
+            board[7][0] = "000";
+            board[7][3] = "WR0";
+        } else if (kingSideCastle && !blackRooks[0].hasMoved() && this.icon.charAt(0) == 'B' &&
+            board[this.positionRow][this.positionColumn + 1] == "000" &&
+            board[this.positionRow][this.positionColumn + 2] == "000") {
+            board[this.positionRow][this.positionColumn] = "000";
+            board[0][6] = this.icon;
+            board[0][7] = "000";
+            board[0][5] = "BR1";
+        } else if (!kingSideCastle && !blackRooks[1].hasMoved() && this.icon.charAt(0) == 'B' &&
+            board[this.positionRow][this.positionColumn - 1] == "000" &&
+            board[this.positionRow][this.positionColumn - 2] == "000" &&
+            board[this.positionRow][this.positionColumn - 3] == "000") {
+            board[this.positionRow][this.positionColumn] = "000";
+            board[0][2] = this.icon;
+            board[0][0] = "000";
+            board[0][3] = "BR0";
+        } else {
+            System.out.println("Invalid move");
         }
     }
 
@@ -46,5 +85,9 @@ public class King {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public boolean hasMoved() {
+        return moved;
     }
 }
