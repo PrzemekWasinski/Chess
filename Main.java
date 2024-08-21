@@ -42,13 +42,13 @@ public class Main {
         //Spawn Bishops
         int[] bishopColumns = {2, 5};
         Bishop [] whiteBishops = new Bishop[10];
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 0; i++) {
             whiteBishops[i] = new Bishop("WB" + Integer.toString(i), "B", 3, 7, bishopColumns[i]);
             board[whiteBishops[i].getPositionRow()][whiteBishops[i].getPositionColumn()] = whiteBishops[i].getIcon();
         }
 
         Bishop [] blackBishops = new Bishop[10];
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 0; i++) {
             blackBishops[i] = new Bishop("BB" + Integer.toString(i), "W", 3, 0, bishopColumns[i]);
             board[blackBishops[i].getPositionRow()][blackBishops[i].getPositionColumn()] = blackBishops[i].getIcon();
         }
@@ -62,7 +62,7 @@ public class Main {
         }
 
         Knight [] blackKnights = new Knight[10];
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 0; i++) {
             blackKnights[i] = new Knight("BN" + Integer.toString(i), "W", 3, 0, knightColumns[i]);
             board[blackKnights[i].getPositionRow()][blackKnights[i].getPositionColumn()] = blackKnights[i].getIcon();
         }
@@ -83,13 +83,13 @@ public class Main {
 
         //Spawn pawns
         Pawn [] whitePawns = new Pawn[8];
-        for (int i = 0; i < board.length; i++) {
+        for (int i = 0; i < 0; i++) {
             whitePawns[i] = new Pawn("WP" + Integer.toString(i), "B", 1, 6, i, false);
             board[whitePawns[i].getPositionRow()][whitePawns[i].getPositionColumn()] = whitePawns[i].getIcon();
         }
 
         Pawn [] blackPawns = new Pawn[8];
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 0; i++) {
             blackPawns[i] = new Pawn("BP" + Integer.toString(i), "W", 1, 1, i, false);
             board[blackPawns[i].getPositionRow()][blackPawns[i].getPositionColumn()] = blackPawns[i].getIcon();
         }

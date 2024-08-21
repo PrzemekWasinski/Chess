@@ -23,169 +23,287 @@ public class Queen {
             board[destinationRow][destinationColumn].charAt(1) == 'K') {
             System.out.println("Invalid move");
         } else {
-            int[][] availableMoves = new int[32][2];
+            int[][][] availableMoves = new int[4][8][2];
+            // [0] = Moves vertically
+            // [1] = Moves horizontally
+            // [2] = Moves diagonally from top left to bottom right
+            // [3] = Moves diagonally from  top right to bottom left
 
             for (int i = 0; i < availableMoves.length; i++) {
                 for (int j = 0; j < availableMoves[i].length; j++) {
-                    availableMoves[i][j] = -1;
+                    for (int k = 0; k < availableMoves[i][j].length; k++) {
+                        availableMoves[i][j][k] = -1;
+                    }
                 }
             }
 
-            int counter = 0;
+            boolean defendingVertical = false;
+            boolean attackedVertical = false;
+
+            boolean defendingHorizontal = false;
+            boolean attackedHorizontal = false;
+
+            boolean defendingTopLeft = false;
+            boolean attackedTopLeft = false;
+
+            boolean defendingTopRight = false;
+            boolean attackedTopRight = false;
+
+            int verticalCounter = 0;
+            int horizontalCounter = 0;
+            int diagonalTopLeftCounter = 0;
+            int diagonalTopRightCounter = 0;
+
+            // Add moves vertically
             for (int i = this.positionRow; i <= 7; i++) {
                 if (board[i][this.positionColumn].charAt(0) == this.icon.charAt(0)) {
                     if (i > this.positionRow) {
+                        if (board[i][this.positionColumn].charAt(1) == 'K') {
+                            defendingVertical = true;
+                        }
                         break;
                     }
                 } else if (board[i][this.positionColumn].charAt(0) == this.enemy.charAt(0)) {
-                    availableMoves[counter][0] = i;
-                    availableMoves[counter][1] = this.positionColumn;
-                    counter++;
+                    if (board[i][this.positionColumn].charAt(1) == 'Q' || board[i][this.positionColumn].charAt(1) == 'R') {
+                        attackedVertical = true;
+                    }
+                    availableMoves[0][verticalCounter][0] = i;
+                    availableMoves[0][verticalCounter][1] = this.positionColumn;
+                    verticalCounter++;
                     break;
                 } else {
-                    availableMoves[counter][0] = i;
-                    availableMoves[counter][1] = this.positionColumn;
-                    counter++;
+                    availableMoves[0][verticalCounter][0] = i;
+                    availableMoves[0][verticalCounter][1] = this.positionColumn;
+                    verticalCounter++;
                 }
             }
+            
             for (int i = this.positionRow; i >= 0; i--) {
                 if (board[i][this.positionColumn].charAt(0) == this.icon.charAt(0)) {
                     if (i < this.positionRow) {
+                        if (board[i][this.positionColumn].charAt(1) == 'K') {
+                            defendingVertical = true;
+                        }
                         break;
                     }
                 } else if (board[i][this.positionColumn].charAt(0) == this.enemy.charAt(0)) {
-                    availableMoves[counter][0] = i;
-                    availableMoves[counter][1] = this.positionColumn;
-                    counter++;
+                    if (board[i][this.positionColumn].charAt(1) == 'Q' || board[i][this.positionColumn].charAt(1) == 'R') {
+                        attackedVertical = true;
+                    }
+                    availableMoves[0][verticalCounter][0] = i;
+                    availableMoves[0][verticalCounter][1] = this.positionColumn;
+                    verticalCounter++;
                     break;
                 } else {
-                    availableMoves[counter][0] = i;
-                    availableMoves[counter][1] = this.positionColumn;
-                    counter++;
+                    availableMoves[0][verticalCounter][0] = i;
+                    availableMoves[0][verticalCounter][1] = this.positionColumn;
+                    verticalCounter++;
                 }
             }
-
+            // Add moves horizontally
             for (int i = this.positionColumn; i <= 7; i++) {
                 if (board[this.positionRow][i].charAt(0) == this.icon.charAt(0)) {
                     if (i > this.positionColumn) {
+                        if (board[this.positionRow][i].charAt(1) == 'K') {
+                            defendingHorizontal = true;
+                        }
                         break;
                     }
                 } else if (board[this.positionRow][i].charAt(0) == this.enemy.charAt(0)) {
-                    availableMoves[counter][0] = this.positionRow;
-                    availableMoves[counter][1] = i;
-                    counter++;
+                    if (board[this.positionRow][i].charAt(1) == 'Q' || board[this.positionRow][i].charAt(1) == 'R') {
+                        attackedHorizontal = true;
+                    }
+                    availableMoves[1][horizontalCounter][0] = this.positionRow;
+                    availableMoves[1][horizontalCounter][1] = i;
+                    horizontalCounter++;
                     break;
                 } else {
-                    availableMoves[counter][0] = this.positionRow;
-                    availableMoves[counter][1] = i;
-                    counter++;
+                    availableMoves[1][horizontalCounter][0] = this.positionRow;
+                    availableMoves[1][horizontalCounter][1] = i;
+                    horizontalCounter++;
                 }
             }
+            
             for (int i = this.positionColumn; i >= 0; i--) {
                 if (board[this.positionRow][i].charAt(0) == this.icon.charAt(0)) {
                     if (i < this.positionColumn) {
+                        if (board[this.positionRow][i].charAt(1) == 'K') {
+                            defendingHorizontal = true;
+                        }
                         break;
                     }
                 } else if (board[this.positionRow][i].charAt(0) == this.enemy.charAt(0)) {
-                    availableMoves[counter][0] = this.positionRow;
-                    availableMoves[counter][1] = i;
-                    counter++;
+                    if (board[this.positionRow][i].charAt(1) == 'Q' || board[this.positionRow][i].charAt(1) == 'R') {
+                        attackedHorizontal = true;
+                    }
+                    availableMoves[1][horizontalCounter][0] = this.positionRow;
+                    availableMoves[1][horizontalCounter][1] = i;
+                    horizontalCounter++;
                     break;
                 } else {
-                    availableMoves[counter][0] = this.positionRow;
-                    availableMoves[counter][1] = i;
-                    counter++;
+                    availableMoves[1][horizontalCounter][0] = this.positionRow;
+                    availableMoves[1][horizontalCounter][1] = i;
+                    horizontalCounter++;
                 }
             }
 
+            // Add moves from queen to top left
             for (int i = 1; i <= 7; i++) {
                 if (this.positionRow - i < 0 || this.positionColumn - i < 0) {
                     break;
                 } else {
                     if (board[this.positionRow - i][this.positionColumn - i].charAt(0) == this.icon.charAt(0)) {
-                        if (i > 1) {
-                            break;
+                        if (board[this.positionRow - i][this.positionColumn - i].charAt(1) == 'K') {
+                            defendingTopLeft = true;
                         }
+                        break;
                     } else if (board[this.positionRow - i][this.positionColumn - i].charAt(0) == this.enemy.charAt(0)) {
-                        availableMoves[counter][0] = this.positionRow - i;
-                        availableMoves[counter][1] = this.positionColumn - i;
-                        counter++;
+                        if (board[this.positionRow - i][this.positionColumn - i].charAt(1) == 'Q' || board[this.positionRow - i][this.positionColumn - i].charAt(1) == 'B') {
+                            attackedTopLeft = true;
+                        }
+                        availableMoves[2][diagonalTopLeftCounter][0] = this.positionRow - i;
+                        availableMoves[2][diagonalTopLeftCounter][1] = this.positionColumn - i;
+                        diagonalTopLeftCounter++;
                         break;
                     } else {
-                        availableMoves[counter][0] = this.positionRow - i;
-                        availableMoves[counter][1] = this.positionColumn - i;
-                        counter++;
+                        availableMoves[2][diagonalTopLeftCounter][0] = this.positionRow - i;
+                        availableMoves[2][diagonalTopLeftCounter][1] = this.positionColumn - i;
+                        diagonalTopLeftCounter++;
                     }
                 }
             }
+            // Add moves from queen to bottom left
             for (int i = 1; i <= 7; i++) {
                 if (this.positionRow + i > 7 || this.positionColumn - i < 0) {
                     break;
                 } else {
                     if (board[this.positionRow + i][this.positionColumn - i].charAt(0) == this.icon.charAt(0)) {
-                        if (i > 1) {
-                            break;
+                        if (board[this.positionRow + i][this.positionColumn - i].charAt(1) == 'K') {
+                            defendingTopRight = true;
                         }
+                        break;
                     } else if (board[this.positionRow + i][this.positionColumn - i].charAt(0) == this.enemy.charAt(0)) {
-                        availableMoves[counter][0] = this.positionRow + i;
-                        availableMoves[counter][1] = this.positionColumn - i;
-                        counter++;
+                        if (board[this.positionRow + i][this.positionColumn - i].charAt(1) == 'Q' || board[this.positionRow + i][this.positionColumn - i].charAt(1) == 'B') {
+                            attackedTopRight = true;
+                        }
+                        availableMoves[3][diagonalTopRightCounter][0] = this.positionRow + i;
+                        availableMoves[3][diagonalTopRightCounter][1] = this.positionColumn - i;
+                        diagonalTopRightCounter++;
                         break;
                     } else {
-                        availableMoves[counter][0] = this.positionRow + i;
-                        availableMoves[counter][1] = this.positionColumn - i;
-                        counter++;
+                        availableMoves[3][diagonalTopRightCounter][0] = this.positionRow + i;
+                        availableMoves[3][diagonalTopRightCounter][1] = this.positionColumn - i;
+                        diagonalTopRightCounter++;
                     }
                 }
             }
+
+            // Add moves from queen to top right
             for (int i = 1; i <= 7; i++) {
                 if (this.positionRow - i < 0 || this.positionColumn + i > 7) {
                     break;
                 } else {
                     if (board[this.positionRow - i][this.positionColumn + i].charAt(0) == this.icon.charAt(0)) {
-                        if (i > 1) {
-                            break;
+                        if (board[this.positionRow - i][this.positionColumn + i].charAt(1) == 'K') {
+                            defendingTopRight = true;
                         }
+                        break;
                     } else if (board[this.positionRow - i][this.positionColumn + i].charAt(0) == this.enemy.charAt(0)) {
-                        availableMoves[counter][0] = this.positionRow - i;
-                        availableMoves[counter][1] = this.positionColumn + i;
-                        counter++;
+                        if (board[this.positionRow - i][this.positionColumn + i].charAt(1) == 'Q' || board[this.positionRow - i][this.positionColumn + i].charAt(1) == 'B') {
+                            attackedTopRight = true;
+                        }
+                        availableMoves[3][diagonalTopRightCounter][0] = this.positionRow - i;
+                        availableMoves[3][diagonalTopRightCounter][1] = this.positionColumn + i;
+                        diagonalTopRightCounter++;
                         break;
                     } else {
-                        availableMoves[counter][0] = this.positionRow - i;
-                        availableMoves[counter][1] = this.positionColumn + i;
-                        counter++;
+                        availableMoves[3][diagonalTopRightCounter][0] = this.positionRow - i;
+                        availableMoves[3][diagonalTopRightCounter][1] = this.positionColumn + i;
+                        diagonalTopRightCounter++;
                     }
                 }
             }
+
+            // Add moves from queen to bottom right
             for (int i = 1; i <= 7; i++) {
                 if (this.positionRow + i > 7 || this.positionColumn + i > 7) {
                     break;
                 } else {
                     if (board[this.positionRow + i][this.positionColumn + i].charAt(0) == this.icon.charAt(0)) {
-                        if (i > 1) {
-                            break;
+                        if (board[this.positionRow + i][this.positionColumn + i].charAt(1) == 'K') {
+                            defendingTopLeft = true;
                         }
+                        break;
                     } else if (board[this.positionRow + i][this.positionColumn + i].charAt(0) == this.enemy.charAt(0)) {
-                        availableMoves[counter][0] = this.positionRow + i;
-                        availableMoves[counter][1] = this.positionColumn + i;
+                        if (board[this.positionRow + i][this.positionColumn + i].charAt(1) == 'Q' || board[this.positionRow + i][this.positionColumn + i].charAt(1) == 'B') {
+                            attackedTopLeft = true;
+                        }
+                        availableMoves[2][diagonalTopLeftCounter][0] = this.positionRow + i;
+                        availableMoves[2][diagonalTopLeftCounter][1] = this.positionColumn + i;
+                        diagonalTopLeftCounter++;
                         break;
                     } else {
-                        availableMoves[counter][0] = this.positionRow + i;
-                        availableMoves[counter][1] = this.positionColumn + i;
-                        counter++;
+                        availableMoves[2][diagonalTopLeftCounter][0] = this.positionRow + i;
+                        availableMoves[2][diagonalTopLeftCounter][1] = this.positionColumn + i;
+                        diagonalTopLeftCounter++;
                     }
                 }
             }
+
             boolean legalMove = false;
-            for (int i = 0; i < availableMoves.length; i++) {
-                if (availableMoves[i][0] == destinationRow) {
-                    if (availableMoves[i][1] == destinationColumn) {
-                        legalMove = true;
-                        break;
+            if (defendingVertical && attackedVertical) {
+                System.out.println("vertical");
+                for (int i = 0; i < availableMoves[0].length; i++) {
+                    if (availableMoves[0][i][0] == destinationRow) {
+                        if (availableMoves[0][i][1] == destinationColumn) {
+                            legalMove = true;
+                            break;
+                        }
+                    }
+                }
+            } else if (defendingHorizontal && attackedHorizontal) {
+                System.out.println("horizontal");
+                for (int i = 0; i < availableMoves[1].length; i++) {
+                    if (availableMoves[1][i][0] == destinationRow) {
+                        if (availableMoves[1][i][1] == destinationColumn) {
+                            legalMove = true;
+                            break;
+                        }
+                    }
+                }
+            } else if (defendingTopLeft && attackedTopLeft) {
+                System.out.println("topleft");
+                for (int i = 0; i < availableMoves[2].length; i++) {
+                    if (availableMoves[2][i][0] == destinationRow) {
+                        if (availableMoves[2][i][1] == destinationColumn) {
+                            legalMove = true;
+                            break;
+                        }
+                    }
+                }
+            } else if (defendingTopRight && attackedTopRight) {
+                System.out.println("topright");
+                for (int i = 0; i < availableMoves[3].length; i++) {
+                    if (availableMoves[3][i][0] == destinationRow) {
+                        if (availableMoves[3][i][1] == destinationColumn) {
+                            legalMove = true;
+                            break;
+                        }
+                    }
+                }
+            } else {
+                for (int i = 0; i < availableMoves.length; i++) {
+                    for (int j = 0; j < availableMoves[i].length; j++) {
+                        if (availableMoves[i][j][0] == destinationRow) {
+                            if (availableMoves[i][j][1] == destinationColumn) {
+                                legalMove = true;
+                                break;
+                            }
+                        }
                     }
                 }
             }
+
             if (legalMove) {
                 board[this.positionRow][this.positionColumn] = "000";
                 this.positionRow = destinationRow;
