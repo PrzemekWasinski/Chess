@@ -1,18 +1,20 @@
-package Chess;
-
 public class King {
     private String icon;
+    private String enemy;
     private int value;
     private int positionRow;
     private int positionColumn;
     private boolean moved;
+    private boolean check;
 
-    King(String icon, int value, int positionRow, int positionColumn, boolean moved) {
+    King(String icon, String enemy, int value, int positionRow, int positionColumn, boolean moved, boolean check) {
         this.icon = icon;
+        this.enemy = enemy;
         this.value = value;
         this.positionRow = positionRow;
         this.positionColumn = positionColumn;
         this.moved = moved;
+        this.check = check;
     }
 
     void move(String[][] board, int destinationRow, int destinationColumn) {
@@ -69,6 +71,178 @@ public class King {
         }
     }
 
+    void checkIfCheck(String[][] board) {
+            boolean attackedVertical = false;
+            boolean attackedHorizontal = false;
+            boolean attackedTopLeft = false;
+            boolean attackedTopRight = false;
+
+            for (int i = this.positionRow; i <= 7; i++) {
+                if (board[i][this.positionColumn].charAt(0) == this.icon.charAt(0)) {
+                    if (i > this.positionRow) {
+                        break;
+                    }
+                } else if (board[i][this.positionColumn].charAt(0) == this.enemy.charAt(0)) {
+                    if (board[i][this.positionColumn].charAt(1) == 'Q' || board[i][this.positionColumn].charAt(1) == 'R') {
+                        attackedVertical = true;
+                    }
+                    break;
+                } 
+            }
+            
+            for (int i = this.positionRow; i >= 0; i--) {
+                if (board[i][this.positionColumn].charAt(0) == this.icon.charAt(0)) {
+                    if (i < this.positionRow) {
+                        break;
+                    }
+                } else if (board[i][this.positionColumn].charAt(0) == this.enemy.charAt(0)) {
+                    if (board[i][this.positionColumn].charAt(1) == 'Q' || board[i][this.positionColumn].charAt(1) == 'R') {
+                        attackedVertical = true;
+                    }
+                    break;
+                } 
+            }
+
+            for (int i = this.positionColumn; i <= 7; i++) {
+                if (board[this.positionRow][i].charAt(0) == this.icon.charAt(0)) {
+                    if (i > this.positionColumn) {
+                        break;
+                    }
+                } else if (board[this.positionRow][i].charAt(0) == this.enemy.charAt(0)) {
+                    if (board[this.positionRow][i].charAt(1) == 'Q' || board[this.positionRow][i].charAt(1) == 'R') {
+                        attackedHorizontal = true;
+                    }
+                    break;
+                }
+            }
+            
+            for (int i = this.positionColumn; i >= 0; i--) {
+                if (board[this.positionRow][i].charAt(0) == this.icon.charAt(0)) {
+                    if (i < this.positionColumn) {
+                        break;
+                    }
+                } else if (board[this.positionRow][i].charAt(0) == this.enemy.charAt(0)) {
+                    if (board[this.positionRow][i].charAt(1) == 'Q' || board[this.positionRow][i].charAt(1) == 'R') {
+                        attackedHorizontal = true;
+                    }
+                    break;
+                }
+            }
+
+            for (int i = 1; i <= 7; i++) {
+                if (this.positionRow - i < 0 || this.positionColumn - i < 0) {
+                    break;
+                } else {
+                    if (board[this.positionRow - i][this.positionColumn - i].charAt(0) == this.icon.charAt(0)) {
+                        break;
+                    } else if (board[this.positionRow - i][this.positionColumn - i].charAt(0) == this.enemy.charAt(0)) {
+                        if (board[this.positionRow - i][this.positionColumn - i].charAt(1) == 'Q' || board[this.positionRow - i][this.positionColumn - i].charAt(1) == 'B') {
+                            attackedTopLeft = true;
+                        }
+                        break;
+                    }
+                }
+            }
+
+            for (int i = 1; i <= 7; i++) {
+                if (this.positionRow + i > 7 || this.positionColumn - i < 0) {
+                    break;
+                } else {
+                    if (board[this.positionRow + i][this.positionColumn - i].charAt(0) == this.icon.charAt(0)) {
+                        break;
+                    } else if (board[this.positionRow + i][this.positionColumn - i].charAt(0) == this.enemy.charAt(0)) {
+                        if (board[this.positionRow + i][this.positionColumn - i].charAt(1) == 'Q' || board[this.positionRow + i][this.positionColumn - i].charAt(1) == 'B') {
+                            attackedTopRight = true;
+                        }
+                        break;
+                    }
+                }
+            }
+
+            for (int i = 1; i <= 7; i++) {
+                if (this.positionRow - i < 0 || this.positionColumn + i > 7) {
+                    break;
+                } else {
+                    if (board[this.positionRow - i][this.positionColumn + i].charAt(0) == this.icon.charAt(0)) {
+                        break;
+                    } else if (board[this.positionRow - i][this.positionColumn + i].charAt(0) == this.enemy.charAt(0)) {
+                        if (board[this.positionRow - i][this.positionColumn + i].charAt(1) == 'Q' || board[this.positionRow - i][this.positionColumn + i].charAt(1) == 'B') {
+                            attackedTopRight = true;
+                        }
+                        break;
+                    } 
+                }
+            }
+
+            for (int i = 1; i <= 7; i++) {
+                if (this.positionRow + i > 7 || this.positionColumn + i > 7) {
+                    break;
+                } else {
+                    if (board[this.positionRow + i][this.positionColumn + i].charAt(0) == this.icon.charAt(0)) {
+                        break;
+                    } else if (board[this.positionRow + i][this.positionColumn + i].charAt(0) == this.enemy.charAt(0)) {
+                        if (board[this.positionRow + i][this.positionColumn + i].charAt(1) == 'Q' || board[this.positionRow + i][this.positionColumn + i].charAt(1) == 'B') {
+                            attackedTopLeft = true;
+                        }
+                        break;
+                    }
+                }
+            }
+
+            try {
+                if (board[this.positionRow + 1][this.positionColumn + 2].charAt(1) == 'N' &&
+                    board[this.positionRow + 1][this.positionColumn + 2].charAt(0) == this.enemy.charAt(0)) {
+                    this.check = true;
+                } else if (board[this.positionRow + 1][this.positionColumn - 2].charAt(1) == 'N' &&
+                            board[this.positionRow + 1][this.positionColumn - 2].charAt(0) == this.enemy.charAt(0)) {
+                    this.check = true;
+                } else if (board[this.positionRow - 1][this.positionColumn + 2].charAt(1) == 'N' &&
+                            board[this.positionRow - 1][this.positionColumn + 2].charAt(0) == this.enemy.charAt(0)) {
+                    this.check = true;
+                } else if (board[this.positionRow - 1][this.positionColumn - 2].charAt(1) == 'N' &&
+                            board[this.positionRow - 1][this.positionColumn - 2].charAt(0) == this.enemy.charAt(0)) {
+                    this.check = true;
+                } else if (board[this.positionRow + 2][this.positionColumn + 1].charAt(1) == 'N' &&
+                            board[this.positionRow + 2][this.positionColumn + 1].charAt(0) == this.enemy.charAt(0)) {
+                    this.check = true;
+                } else if (board[this.positionRow + 2][this.positionColumn - 1].charAt(1) == 'N' &&
+                            board[this.positionRow + 2][this.positionColumn - 1].charAt(0) == this.enemy.charAt(0)) {
+                    this.check = true;
+                } else if (board[this.positionRow - 2][this.positionColumn + 1].charAt(1) == 'N' &&
+                            board[this.positionRow - 2][this.positionColumn + 1].charAt(0) == this.enemy.charAt(0)) {
+                    this.check = true;
+                } else if (board[this.positionRow - 2][this.positionColumn - 1].charAt(1) == 'N' &&
+                            board[this.positionRow - 2][this.positionColumn - 1].charAt(0) == this.enemy.charAt(0)) {
+                    this.check = true;
+                } else if (attackedVertical || attackedHorizontal || attackedTopRight || attackedTopLeft) {
+                    this.check = true;
+                } 
+            } catch (ArrayIndexOutOfBoundsException e) {}     
+
+            if (!this.check) {
+                try {
+                    if (this.icon.charAt(0) == 'W') {
+                        if (board[this.positionRow - 1][this.positionColumn + 1].charAt(0) == this.enemy.charAt(0) &&
+                            board[this.positionRow - 1][this.positionColumn + 1].charAt(1) == 'P') {    
+                            this.check = true;
+                        } else if (board[this.positionRow - 1][this.positionColumn - 1].charAt(0) == this.enemy.charAt(0) &&
+                                    board[this.positionRow - 1][this.positionColumn - 1].charAt(1) == 'P') {
+                            this.check = true;
+                        }
+                    } else if (this.icon.charAt(0) == 'B') {
+                        if (board[this.positionRow + 1][this.positionColumn + 1].charAt(0) == this.enemy.charAt(0) &&
+                            board[this.positionRow + 1][this.positionColumn + 1].charAt(1) == 'P') {    
+                            this.check = true;
+                        } else if (board[this.positionRow + 1][this.positionColumn - 1].charAt(0) == this.enemy.charAt(0) &&
+                                    board[this.positionRow + 1][this.positionColumn - 1].charAt(1) == 'P') {
+                            this.check = true;
+                        }
+                    }
+                } catch (ArrayIndexOutOfBoundsException e) {}
+            }
+        }
+    
+
     public String getIcon() {
         return icon;
     }
@@ -83,6 +257,10 @@ public class King {
 
     public int getPositionColumn() {
         return positionColumn;
+    }
+
+    public boolean getCheck() {
+        return check;
     }
 
     public void setIcon(String icon) {

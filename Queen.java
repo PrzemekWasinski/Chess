@@ -1,5 +1,3 @@
-package Chess;
-
 public class Queen {
     private String icon;
     private String enemy;
@@ -54,7 +52,6 @@ public class Queen {
             int diagonalTopLeftCounter = 0;
             int diagonalTopRightCounter = 0;
 
-            // Add moves vertically
             for (int i = this.positionRow; i <= 7; i++) {
                 if (board[i][this.positionColumn].charAt(0) == this.icon.charAt(0)) {
                     if (i > this.positionRow) {
@@ -100,7 +97,7 @@ public class Queen {
                     verticalCounter++;
                 }
             }
-            // Add moves horizontally
+
             for (int i = this.positionColumn; i <= 7; i++) {
                 if (board[this.positionRow][i].charAt(0) == this.icon.charAt(0)) {
                     if (i > this.positionColumn) {
@@ -147,7 +144,6 @@ public class Queen {
                 }
             }
 
-            // Add moves from queen to top left
             for (int i = 1; i <= 7; i++) {
                 if (this.positionRow - i < 0 || this.positionColumn - i < 0) {
                     break;
@@ -172,7 +168,7 @@ public class Queen {
                     }
                 }
             }
-            // Add moves from queen to bottom left
+
             for (int i = 1; i <= 7; i++) {
                 if (this.positionRow + i > 7 || this.positionColumn - i < 0) {
                     break;
@@ -198,7 +194,6 @@ public class Queen {
                 }
             }
 
-            // Add moves from queen to top right
             for (int i = 1; i <= 7; i++) {
                 if (this.positionRow - i < 0 || this.positionColumn + i > 7) {
                     break;
@@ -224,7 +219,6 @@ public class Queen {
                 }
             }
 
-            // Add moves from queen to bottom right
             for (int i = 1; i <= 7; i++) {
                 if (this.positionRow + i > 7 || this.positionColumn + i > 7) {
                     break;
@@ -252,7 +246,6 @@ public class Queen {
 
             boolean legalMove = false;
             if (defendingVertical && attackedVertical) {
-                System.out.println("vertical");
                 for (int i = 0; i < availableMoves[0].length; i++) {
                     if (availableMoves[0][i][0] == destinationRow) {
                         if (availableMoves[0][i][1] == destinationColumn) {
@@ -262,7 +255,6 @@ public class Queen {
                     }
                 }
             } else if (defendingHorizontal && attackedHorizontal) {
-                System.out.println("horizontal");
                 for (int i = 0; i < availableMoves[1].length; i++) {
                     if (availableMoves[1][i][0] == destinationRow) {
                         if (availableMoves[1][i][1] == destinationColumn) {
@@ -272,7 +264,6 @@ public class Queen {
                     }
                 }
             } else if (defendingTopLeft && attackedTopLeft) {
-                System.out.println("topleft");
                 for (int i = 0; i < availableMoves[2].length; i++) {
                     if (availableMoves[2][i][0] == destinationRow) {
                         if (availableMoves[2][i][1] == destinationColumn) {
@@ -282,7 +273,6 @@ public class Queen {
                     }
                 }
             } else if (defendingTopRight && attackedTopRight) {
-                System.out.println("topright");
                 for (int i = 0; i < availableMoves[3].length; i++) {
                     if (availableMoves[3][i][0] == destinationRow) {
                         if (availableMoves[3][i][1] == destinationColumn) {

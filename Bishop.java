@@ -1,5 +1,3 @@
-package Chess;
-
 public class Bishop {
     private String icon;
     private String enemy;
@@ -47,12 +45,9 @@ public class Bishop {
             boolean defendingTopRight = false;
             boolean attackedTopRight = false;
 
-            int verticalCounter = 0;
-            int horizontalCounter = 0;
             int diagonalTopLeftCounter = 0;
             int diagonalTopRightCounter = 0;
 
-            // Add moves vertically
             for (int i = this.positionRow; i <= 7; i++) {
                 if (board[i][this.positionColumn].charAt(0) == this.icon.charAt(0)) {
                     if (i > this.positionRow) {
@@ -65,11 +60,8 @@ public class Bishop {
                     if (board[i][this.positionColumn].charAt(1) == 'Q' || board[i][this.positionColumn].charAt(1) == 'R') {
                         attackedVertical = true;
                     }
-                    verticalCounter++;
                     break;
-                } else {
-                    verticalCounter++;
-                }
+                } 
             }
             
             for (int i = this.positionRow; i >= 0; i--) {
@@ -84,13 +76,10 @@ public class Bishop {
                     if (board[i][this.positionColumn].charAt(1) == 'Q' || board[i][this.positionColumn].charAt(1) == 'R') {
                         attackedVertical = true;
                     }
-                    verticalCounter++;
                     break;
-                } else {
-                    verticalCounter++;
-                }
+                } 
             }
-            // Add moves horizontally
+
             for (int i = this.positionColumn; i <= 7; i++) {
                 if (board[this.positionRow][i].charAt(0) == this.icon.charAt(0)) {
                     if (i > this.positionColumn) {
@@ -103,11 +92,8 @@ public class Bishop {
                     if (board[this.positionRow][i].charAt(1) == 'Q' || board[this.positionRow][i].charAt(1) == 'R') {
                         attackedHorizontal = true;
                     }
-                    horizontalCounter++;
                     break;
-                } else {
-                    horizontalCounter++;
-                }
+                } 
             }
             
             for (int i = this.positionColumn; i >= 0; i--) {
@@ -122,14 +108,10 @@ public class Bishop {
                     if (board[this.positionRow][i].charAt(1) == 'Q' || board[this.positionRow][i].charAt(1) == 'R') {
                         attackedHorizontal = true;
                     }
-                    horizontalCounter++;
                     break;
-                } else {
-                    horizontalCounter++;
                 }
             }
 
-            // Add moves from bishop to top left
             for (int i = 1; i <= 7; i++) {
                 if (this.positionRow - i < 0 || this.positionColumn - i < 0) {
                     break;
@@ -154,7 +136,7 @@ public class Bishop {
                     }
                 }
             }
-            // Add moves from bishop to bottom left
+
             for (int i = 1; i <= 7; i++) {
                 if (this.positionRow + i > 7 || this.positionColumn - i < 0) {
                     break;
@@ -180,7 +162,6 @@ public class Bishop {
                 }
             }
 
-            // Add moves from bishop to top right
             for (int i = 1; i <= 7; i++) {
                 if (this.positionRow - i < 0 || this.positionColumn + i > 7) {
                     break;
@@ -206,7 +187,6 @@ public class Bishop {
                 }
             }
 
-            // Add moves from bishop to bottom right
             for (int i = 1; i <= 7; i++) {
                 if (this.positionRow + i > 7 || this.positionColumn + i > 7) {
                     break;
