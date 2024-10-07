@@ -2,7 +2,6 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-
         String[][] board = new String[8][8];
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
@@ -36,13 +35,13 @@ public class Main {
 
         int[] bishopColumns = {2, 5};
         Bishop [] whiteBishops = new Bishop[10];
-        for (int i = 0; i < 0; i++) {
+        for (int i = 0; i < 2; i++) {
             whiteBishops[i] = new Bishop("WB" + Integer.toString(i), "B", 3, 7, bishopColumns[i]);
             board[whiteBishops[i].getPositionRow()][whiteBishops[i].getPositionColumn()] = whiteBishops[i].getIcon();
         }
 
         Bishop [] blackBishops = new Bishop[10];
-        for (int i = 0; i < 0; i++) {
+        for (int i = 0; i < 2; i++) {
             blackBishops[i] = new Bishop("BB" + Integer.toString(i), "W", 3, 0, bishopColumns[i]);
             board[blackBishops[i].getPositionRow()][blackBishops[i].getPositionColumn()] = blackBishops[i].getIcon();
         }
@@ -55,7 +54,7 @@ public class Main {
         }
 
         Knight [] blackKnights = new Knight[10];
-        for (int i = 0; i < 0; i++) {
+        for (int i = 0; i < 2; i++) {
             blackKnights[i] = new Knight("BN" + Integer.toString(i), "W", 3, 0, knightColumns[i]);
             board[blackKnights[i].getPositionRow()][blackKnights[i].getPositionColumn()] = blackKnights[i].getIcon();
         }
@@ -74,7 +73,7 @@ public class Main {
         }
 
         Pawn [] whitePawns = new Pawn[8];
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 0; i++) {
             whitePawns[i] = new Pawn("WP" + Integer.toString(i), "B", 1, 6, i, false);
             board[whitePawns[i].getPositionRow()][whitePawns[i].getPositionColumn()] = whitePawns[i].getIcon();
         }
@@ -115,8 +114,14 @@ public class Main {
                 turn = "White's turn";
             }
 
-            whiteKings[0].checkIfCheck(board);
-            blackKings[0].checkIfCheck(board);
+            blackKings[0].setCheck(false);
+            whiteKings[0].setCheck(false);
+
+            if (checkIfCheck(board, blackKings[0].getPositionRow(), blackKings[0].getPositionColumn(), blackKings[0].getEnemy(), blackKings[0].getIcon())) {
+                blackKings[0].setCheck(true);
+            } else if (checkIfCheck(board, whiteKings[0].getPositionRow(), whiteKings[0].getPositionColumn(), whiteKings[0].getEnemy(), whiteKings[0].getIcon())) {
+                whiteKings[0].setCheck(true);
+            }
 
             System.out.println("White check = " + whiteKings[0].getCheck());
             System.out.println("Black check = " + blackKings[0].getCheck());
@@ -184,7 +189,6 @@ public class Main {
                         System.out.println("It's not your turn");
                     }
                 }
-
             }
             if (!whiteKings[0].getCheck() && !blackKings[0].getCheck()) {
                 if (board[selectedRow][selectedColumn].charAt(1) == 'Q') {
@@ -316,6 +320,184 @@ public class Main {
             }
             System.out.println();
         }
+    }
+
+    public static boolean checkIfCheck(String[][] board, int row, int column, String enemy, String icon) {
+        boolean isCheck = false;
+
+        boolean attackedVertical = false;
+        boolean attackedHorizontal = false;
+        boolean attackedTopLeft = false;
+        boolean attackedTopRight = false;
+
+        for (int i = row; i <= 7; i++) {
+            if (board[i][column].charAt(0) == icon.charAt(0)) {
+                if (i > row) {
+                    break;
+                }
+            } else if (board[i][column].charAt(0) == enemy.charAt(0)) {
+                if (board[i][column].charAt(1) == 'Q' || board[i][column].charAt(1) == 'R') {
+                    attackedVertical = true;
+                }
+                break;
+            }
+        }
+
+        for (int i = row; i >= 0; i--) {
+            if (board[i][column].charAt(0) == icon.charAt(0)) {
+                if (i < row) {
+                    break;
+                }
+            } else if (board[i][column].charAt(0) == enemy.charAt(0)) {
+                if (board[i][column].charAt(1) == 'Q' || board[i][column].charAt(1) == 'R') {
+                    attackedVertical = true;
+                }
+                break;
+            }
+        }
+
+        for (int i = column; i <= 7; i++) {
+            if (board[row][i].charAt(0) == icon.charAt(0)) {
+                if (i > column) {
+                    break;
+                }
+            } else if (board[row][i].charAt(0) == enemy.charAt(0)) {
+                if (board[row][i].charAt(1) == 'Q' || board[row][i].charAt(1) == 'R') {
+                    attackedHorizontal = true;
+                }
+                break;
+            }
+        }
+
+        for (int i = column; i >= 0; i--) {
+            if (board[row][i].charAt(0) == icon.charAt(0)) {
+                if (i < column) {
+                    break;
+                }
+            } else if (board[row][i].charAt(0) == enemy.charAt(0)) {
+                if (board[row][i].charAt(1) == 'Q' || board[row][i].charAt(1) == 'R') {
+                    attackedHorizontal = true;
+                }
+                break;
+            }
+        }
+
+        for (int i = 1; i <= 7; i++) {
+            if (row - i < 0 || column - i < 0) {
+                break;
+            } else {
+                if (board[row - i][column - i].charAt(0) == icon.charAt(0)) {
+                    break;
+                } else if (board[row - i][column - i].charAt(0) == enemy.charAt(0)) {
+                    if (board[row - i][column - i].charAt(1) == 'Q' || board[row - i][column - i].charAt(1) == 'B') {
+                        attackedTopLeft = true;
+                    }
+                    break;
+                }
+            }
+        }
+
+        for (int i = 1; i <= 7; i++) {
+            if (row + i > 7 || column - i < 0) {
+                break;
+            } else {
+                if (board[row + i][column - i].charAt(0) == icon.charAt(0)) {
+                    break;
+                } else if (board[row + i][column - i].charAt(0) == enemy.charAt(0)) {
+                    if (board[row + i][column - i].charAt(1) == 'Q' || board[row + i][column - i].charAt(1) == 'B') {
+                        attackedTopRight = true;
+                    }
+                    break;
+                }
+            }
+        }
+
+        for (int i = 1; i <= 7; i++) {
+            if (row - i < 0 || column + i > 7) {
+                break;
+            } else {
+                if (board[row - i][column + i].charAt(0) == icon.charAt(0)) {
+                    break;
+                } else if (board[row - i][column + i].charAt(0) == enemy.charAt(0)) {
+                    if (board[row - i][column + i].charAt(1) == 'Q' || board[row - i][column + i].charAt(1) == 'B') {
+                        attackedTopRight = true;
+                    }
+                    break;
+                }
+            }
+        }
+
+        for (int i = 1; i <= 7; i++) {
+            if (row + i > 7 || column + i > 7) {
+                break;
+            } else {
+                if (board[row + i][column + i].charAt(0) == icon.charAt(0)) {
+                    break;
+                } else if (board[row + i][column + i].charAt(0) == enemy.charAt(0)) {
+                    if (board[row + i][column + i].charAt(1) == 'Q' || board[row + i][column + i].charAt(1) == 'B') {
+                        attackedTopLeft = true;
+                    }
+                    break;
+                }
+            }
+        }
+
+        try {
+            if (board[row + 1][column + 2].charAt(1) == 'N' &&
+                    board[row + 1][column + 2].charAt(0) == enemy.charAt(0)) {
+                isCheck = true;
+            } else if (board[row + 1][column - 2].charAt(1) == 'N' &&
+                    board[row + 1][column - 2].charAt(0) == enemy.charAt(0)) {
+                isCheck = true;
+            } else if (board[row - 1][column + 2].charAt(1) == 'N' &&
+                    board[row - 1][column + 2].charAt(0) == enemy.charAt(0)) {
+                isCheck = true;
+            } else if (board[row - 1][column - 2].charAt(1) == 'N' &&
+                    board[row - 1][column - 2].charAt(0) == enemy.charAt(0)) {
+                isCheck = true;
+            } else if (board[row + 2][column + 1].charAt(1) == 'N' &&
+                    board[row + 2][column + 1].charAt(0) == enemy.charAt(0)) {
+                isCheck = true;
+            } else if (board[row + 2][column - 1].charAt(1) == 'N' &&
+                    board[row + 2][column - 1].charAt(0) == enemy.charAt(0)) {
+                isCheck = true;
+            } else if (board[row - 2][column + 1].charAt(1) == 'N' &&
+                    board[row - 2][column + 1].charAt(0) == enemy.charAt(0)) {
+                isCheck = true;
+            } else if (board[row - 2][column - 1].charAt(1) == 'N' &&
+                    board[row - 2][column - 1].charAt(0) == enemy.charAt(0)) {
+                isCheck = true;
+            } else if (attackedVertical || attackedHorizontal || attackedTopRight || attackedTopLeft) {
+                isCheck = true;
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {}
+
+        if (!isCheck) {
+            try {
+                if (icon.charAt(0) == 'W') {
+                    if (board[row - 1][column + 1].charAt(0) == enemy.charAt(0) &&
+                        board[row - 1][column + 1].charAt(1) == 'P') {
+                        isCheck = true;
+                    } else if (board[row - 1][column - 1].charAt(0) == enemy.charAt(0) &&
+                               board[row - 1][column - 1].charAt(1) == 'P') {
+                        isCheck = true;
+                    }
+                } else if (icon.charAt(0) == 'B') {
+                    if (board[row + 1][column + 1].charAt(0) == enemy.charAt(0) &&
+                        board[row + 1][column + 1].charAt(1) == 'P') {
+                        isCheck = true;
+                    } else if (board[row + 1][column - 1].charAt(0) == enemy.charAt(0) &&
+                               board[row + 1][column - 1].charAt(1) == 'P') {
+                        isCheck = true;
+                    }
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {}
+        }
+
+        if (attackedHorizontal || attackedVertical || attackedTopRight || attackedTopLeft) {
+            isCheck = true;
+        }
+        return isCheck;
     }
 }
 
