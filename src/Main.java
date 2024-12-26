@@ -28,10 +28,10 @@ public class Main {
         board[0][7] = new Rook(0, 7, "BR", false);
 
         //Spawn bishops
-//        board[7][2] = new Bishop(7, 2, "WB", false);
-//        board[7][5] = new Bishop(7, 5, "WB", false);
-//        board[0][2] = new Bishop(0, 2, "BB", false);
-//        board[0][5] = new Bishop(0, 5, "BB", false);
+        board[7][2] = new Bishop(7, 2, "WB", false);
+        board[7][5] = new Bishop(7, 5, "WB", false);
+        board[0][2] = new Bishop(0, 2, "BB", false);
+        board[0][5] = new Bishop(0, 5, "BB", false);
 
         //Spawn knights
         board[7][1] = new Knight(7, 1, "WN", false);
