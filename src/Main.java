@@ -18,8 +18,8 @@ public class Main {
         board[0][4] = new King(0, 4, "BK", false);
 
         //Spawn queens
-//        board[7][3] = new Queen(7, 3, "WQ", false);
-//        board[0][3] = new Queen(0, 3, "BQ", false);
+        board[7][3] = new Queen(7, 3, "WQ", false);
+        board[0][3] = new Queen(0, 3, "BQ", false);
 
         //Spawn rooks
         board[7][0] = new Rook(7, 0, "WR", false);
