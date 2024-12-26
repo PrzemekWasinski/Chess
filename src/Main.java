@@ -33,11 +33,11 @@ public class Main {
 //        board[0][2] = new Bishop(0, 2, "BB", false);
 //        board[0][5] = new Bishop(0, 5, "BB", false);
 
-//        //Spawn knights
-//        board[7][1] = new Knight(7, 1, "WN", false);
-//        board[7][6] = new Knight(7, 6, "WN", false);
-//        board[0][1] = new Knight(0, 1, "BN", false);
-//        board[0][6] = new Knight(0, 6, "BN", false);
+        //Spawn knights
+        board[7][1] = new Knight(7, 1, "WN", false);
+        board[7][6] = new Knight(7, 6, "WN", false);
+        board[0][1] = new Knight(0, 1, "BN", false);
+        board[0][6] = new Knight(0, 6, "BN", false);
 
         //Spawn pawns
 //        for (int i = 0; i < 16; i++) {
@@ -117,82 +117,87 @@ public class Main {
             //Convert user's selected piece to array index
             char fileChar = input.charAt(0);
             String fileString = files.get(String.valueOf(fileChar));
-            int fileChoice = Integer.parseInt(fileString);
+            int file = Integer.parseInt(fileString);
 
             char rankChar = input.charAt(1);
             String rankString = ranks.get(String.valueOf(rankChar));
-            int rankChoice = Integer.parseInt(rankString);
+            int rank = Integer.parseInt(rankString);
 
-            if ((board[rankChoice][fileChoice].getIcon().charAt(0) == 'W' && moveCounter % 2 == 0) ||
-                (board[rankChoice][fileChoice].getIcon().charAt(0) == 'B' && moveCounter % 2 != 0)) {
+            if ((board[rank][file].getIcon().charAt(0) == 'W' && moveCounter % 2 == 0) ||
+                (board[rank][file].getIcon().charAt(0) == 'B' && moveCounter % 2 != 0)) {
 
-                System.out.print("Select where to move your " + board[rankChoice][fileChoice].getIcon() + ": ");
+                System.out.print("Select where to move your " + board[rank][file].getIcon() + ": ");
 
                 Scanner sc2 = new Scanner(System.in);
                 String moveInput = sc2.next();
 
-                char moveFileChar = moveInput.charAt(0);
-                String moveFileString = files.get(String.valueOf(moveFileChar));
-                int moveFileChoice = Integer.parseInt(moveFileString);
+                char newFileChar = moveInput.charAt(0);
+                String newFileString = files.get(String.valueOf(newFileChar));
+                int newFile = Integer.parseInt(newFileString);
 
-                char moveRankChar = moveInput.charAt(1);
-                String moveRankString = ranks.get(String.valueOf(moveRankChar));
-                int moveRankChoice = Integer.parseInt(moveRankString);
+                char newRankChar = moveInput.charAt(1);
+                String newRankString = ranks.get(String.valueOf(newRankChar));
+                int newRank = Integer.parseInt(newRankString);
 
-                //Castling
-                if (board[rankChoice][fileChoice].getIcon().charAt(1) == 'K' && !board[rankChoice][fileChoice].hasMoved()) {
+                if ((board[rank][file].getIcon().charAt(1) == 'K' && !board[rank][file].hasMoved()) && (newRank == rank && newFile == file + 2)) {
+                    if (board[rank][file + 3].getIcon().charAt(1) == 'R' &&
+                        !board[rank][file + 3].hasMoved() &&
+                        board[rank][file + 1].getIcon().equals("00") &&
+                        board[rank][file + 2].getIcon().equals("00")) {
 
-                    if ((moveRankChoice == rankChoice) && (moveFileChoice == fileChoice + 2)) {
+                        if (!board[rank][file].checkIfCheck(board, String.valueOf(board[rank][file].getIcon().charAt(0))) &&
+                            !board[rank][file + 1].checkIfCheck(board, String.valueOf(board[rank][file].getIcon().charAt(0))) &&
+                            !board[rank][file + 2].checkIfCheck(board, String.valueOf(board[rank][file].getIcon().charAt(0)))) {
 
-                        if (board[rankChoice][fileChoice + 3].getIcon().charAt(1) == 'R' &&
-                            !board[rankChoice][fileChoice + 3].hasMoved() &&
-                            board[rankChoice][fileChoice + 1].getIcon().equals("00") &&
-                            board[rankChoice][fileChoice + 2].getIcon().equals("00")) {
-
-                            if (!board[rankChoice][fileChoice].checkIfCheck(board, String.valueOf(board[rankChoice][fileChoice].getIcon().charAt(0))) &&
-                                !board[rankChoice][fileChoice + 1].checkIfCheck(board, String.valueOf(board[rankChoice][fileChoice].getIcon().charAt(0))) &&
-                                !board[rankChoice][fileChoice + 2].checkIfCheck(board, String.valueOf(board[rankChoice][fileChoice].getIcon().charAt(0)))) {
-
-                                board[rankChoice][fileChoice + 2] = new King(moveRankChoice, moveFileChoice, board[rankChoice][fileChoice].getIcon(), true);
-                                board[rankChoice][fileChoice] = new Square(rankChoice, fileChoice, "00", false);
-                                board[rankChoice][fileChoice + 1] = new Rook(rankChoice, fileChoice + 1, board[rankChoice][fileChoice + 3].getIcon(), true);
-                                board[rankChoice][fileChoice + 3] = new Square(rankChoice, fileChoice, "00", false);
-
-                            }
+                            board[rank][file + 2] = new King(newRank, newFile, board[rank][file].getIcon(), true);
+                            board[rank][file] = new Square(rank, file, "00", false);
+                            board[rank][file + 1] = new Rook(rank, file + 1, board[rank][file + 3].getIcon(), true);
+                            board[rank][file + 3] = new Square(rank, file, "00", false);
+                            moveCounter++;
+                        } else {
+                            System.out.println("Invalid Move!");
                         }
-                    } else if ((moveRankChoice == rankChoice) && (moveFileChoice == fileChoice - 2)) {
+                    } else {
+                        System.out.println("Invalid Move!");
+                    }
 
-                        if (board[rankChoice][fileChoice - 4].getIcon().charAt(1) == 'R' &&
-                            !board[rankChoice][fileChoice - 4].hasMoved() &&
-                            board[rankChoice][fileChoice - 1].getIcon().equals("00") &&
-                            board[rankChoice][fileChoice - 2].getIcon().equals("00") &&
-                            board[rankChoice][fileChoice - 2].getIcon().equals("00") ) {
+                } else if ((board[rank][file].getIcon().charAt(1) == 'K' && !board[rank][file].hasMoved()) && (newRank == rank && newFile == file + 2)) {
+                    if (board[rank][file - 4].getIcon().charAt(1) == 'R' &&
+                        !board[rank][file - 4].hasMoved() &&
+                        board[rank][file - 1].getIcon().equals("00") &&
+                        board[rank][file - 2].getIcon().equals("00") &&
+                        board[rank][file - 2].getIcon().equals("00") ) {
 
-                            if (!board[rankChoice][fileChoice].checkIfCheck(board, String.valueOf(board[rankChoice][fileChoice].getIcon().charAt(0))) &&
-                                !board[rankChoice][fileChoice - 1].checkIfCheck(board, String.valueOf(board[rankChoice][fileChoice].getIcon().charAt(0))) &&
-                                !board[rankChoice][fileChoice - 2].checkIfCheck(board, String.valueOf(board[rankChoice][fileChoice].getIcon().charAt(0))) &&
-                                !board[rankChoice][fileChoice - 3].checkIfCheck(board, String.valueOf(board[rankChoice][fileChoice].getIcon().charAt(0)))) {
+                        if (!board[rank][file].checkIfCheck(board, String.valueOf(board[rank][file].getIcon().charAt(0))) &&
+                            !board[rank][file - 1].checkIfCheck(board, String.valueOf(board[rank][file].getIcon().charAt(0))) &&
+                            !board[rank][file - 2].checkIfCheck(board, String.valueOf(board[rank][file].getIcon().charAt(0))) &&
+                            !board[rank][file - 3].checkIfCheck(board, String.valueOf(board[rank][file].getIcon().charAt(0)))) {
 
-                                board[rankChoice][fileChoice - 2] = new King(moveRankChoice, moveFileChoice, board[rankChoice][fileChoice].getIcon(), true);
-                                board[rankChoice][fileChoice] = new Square(rankChoice, fileChoice, "00", false);
-                                board[rankChoice][fileChoice - 1] = new Rook(rankChoice, fileChoice + 1, board[rankChoice][fileChoice + 3].getIcon(), true);
-                                board[rankChoice][fileChoice - 3] = new Square(rankChoice, fileChoice, "00", false);
-                                board[rankChoice][fileChoice - 4] = new Square(rankChoice, fileChoice, "00", false);
-                            }
+                            board[rank][file - 2] = new King(newRank, newFile, board[rank][file].getIcon(), true);
+                            board[rank][file] = new Square(rank, file, "00", false);
+                            board[rank][file - 1] = new Rook(rank, file + 1, board[rank][file + 3].getIcon(), true);
+                            board[rank][file - 3] = new Square(rank, file, "00", false);
+                            board[rank][file - 4] = new Square(rank, file, "00", false);
+                            moveCounter++;
+                        } else {
+                            System.out.println("Invalid Move!");
                         }
+                    } else {
+                        System.out.println("Invalid Move!");
                     }
                 }
 
-                if (board[rankChoice][fileChoice].move(board, moveRankChoice, moveFileChoice)) { //If piece was moved successfully
-                    board[rankChoice][fileChoice] = new Square(rankChoice, fileChoice, "00", false); //Clear the old position
+                else if (board[rank][file].move(board, newRank, newFile)) { //If piece was moved successfully
+                    board[rank][file] = new Square(rank, file, "00", false); //Clear the old position
                     moveCounter++; //Increment move counter
+
                 } else {
                     System.out.println("Invalid move!");
                 }
 
-            } else if (board[rankChoice][fileChoice].getIcon().charAt(0) == 'W' && moveCounter % 2 != 0) {
+            } else if (board[rank][file].getIcon().charAt(0) == 'W' && moveCounter % 2 != 0) {
                 System.out.println("Its Black's turn!");
-            } else if (board[rankChoice][fileChoice].getIcon().charAt(0) == 'B' && moveCounter % 2 == 0) {
+            } else if (board[rank][file].getIcon().charAt(0) == 'B' && moveCounter % 2 == 0) {
                 System.out.println("Its White's turn!");
             } else {
                 System.out.println("Invalid input");

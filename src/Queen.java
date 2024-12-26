@@ -4,8 +4,8 @@ public class Queen extends Square {
         super(rank, file, icon, moved);
     }
 
-    public boolean move(Square[][] board, int rankChoice, int fileChoice) {
-        board[rankChoice][fileChoice] = new Queen(rankChoice, fileChoice, icon, false);
+    public boolean move(Square[][] board, int newRank, int newFile) {
+        board[newRank][newFile] = new Queen(newRank, newFile, icon, false);
         return false;
     }
 }

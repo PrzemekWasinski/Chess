@@ -4,8 +4,8 @@ public class Pawn extends Square {
         super(rank, file, icon, moved);
     }
 
-    public boolean move(Square[][] board, int rankChoice, int fileChoice) {
-        board[rankChoice][fileChoice] = new Pawn(rankChoice, fileChoice, icon, false);
+    public boolean move(Square[][] board, int newRank, int newFile) {
+        board[newRank][newFile] = new Pawn(newRank, newFile, icon, false);
         return false;
     }
 }

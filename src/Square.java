@@ -11,12 +11,14 @@ public class Square {
         this.moved = moved;
     }
 
-    public boolean move(Square[][] board, int rankChoice, int fileChoice) {
+    public boolean move(Square[][] board, int newRank, int newFile) {
         return false;
     }
 
-    //Searches for opposite colour!!!
-    public boolean checkIfCheck(Square[][] board, String colour) {
+    /////////
+    //CHECK//
+    /////////
+    public boolean checkIfCheck(Square[][] board, String colour) { //Searches for opposite colour
         //Vertical and horizontal squares
         for (int i = rank; i < board.length; i++) {
             if (i != rank) {
@@ -66,7 +68,7 @@ public class Square {
             }
         }
 
-        //Down and right TRY TO REMOVE TRY CATCH
+        //Down and right
         for (int i = 1; i < 8; i++) {
             try {
                 if (board[rank + i][file + i].getIcon().charAt(0) != colour.charAt(0) &&
@@ -125,10 +127,12 @@ public class Square {
                 break;
             }
         }
-
         return false;
     }
 
+    /////////////
+    //CHECKMATE//
+    /////////////
     public boolean checkIfCheckmate(Square[][] board, String colour) {
         if (board[rank][file].checkIfCheck(board, colour)) {
             int[][] squares = {
@@ -156,6 +160,183 @@ public class Square {
         }
 
         return false;
+    }
+
+    ////////
+    //PINS//
+    ////////
+    public String isPinned(Square[][] board) {
+        boolean attackVer = false;
+        boolean defendVer = false;
+
+        boolean attackHor = false;
+        boolean defendHor = false;
+
+        boolean attackTopLdownR = false;
+        boolean defendTopLdownR = false;
+
+        boolean attackTopRdownL = false;
+        boolean defendTopRdownL = false;
+
+        for (int i = rank; i < board.length; i++) {
+            if (i != rank) {
+                if (board[i][file].getIcon().charAt(0) == icon.charAt(0)) {
+                    if (board[i][file].getIcon().charAt(1) == 'K') {
+                        defendVer = true;
+                    } else {
+                        break;
+                    }
+                } else if (board[i][file].getIcon().charAt(0) != icon.charAt(0) && board[i][file].getIcon().charAt(0) != '0') {
+                    if ((board[i][file].getIcon().charAt(1) == 'R') ||
+                        (board[i][file].getIcon().charAt(1) == 'Q')) {
+                        attackVer = true;
+                    }
+                }
+            }
+        }
+
+        //Add squares above rook to vertical moves
+        for (int i = rank; i > -1; i--) {
+            if (i != rank) {
+                if (board[i][file].getIcon().charAt(0) == icon.charAt(0)) {
+                    if (board[i][file].getIcon().charAt(1) == 'K') {
+                        defendVer = true;
+                    } else {
+                        break;
+                    }
+                } else if (board[i][file].getIcon().charAt(0) != icon.charAt(0) && board[i][file].getIcon().charAt(0) != '0') {
+                    if ((board[i][file].getIcon().charAt(1) == 'R') ||
+                        (board[i][file].getIcon().charAt(1) == 'Q')) {
+                        attackVer = true;
+                    }
+                }
+            }
+        }
+
+        //Add squares to the right of the rook to horizontal moves
+        for (int i = file; i < board[rank].length; i++) {
+            if (i != file) {
+                if (board[rank][i].getIcon().charAt(0) == icon.charAt(0)) {
+                    if (board[rank][i].getIcon().charAt(1) == 'K') {
+                        defendHor = true;
+                    } else {
+                        break;
+                    }
+                } else if (board[rank][i].getIcon().charAt(0) != icon.charAt(0) && board[rank][i].getIcon().charAt(0) != '0') {
+                    if ((board[rank][i].getIcon().charAt(1) == 'R') ||
+                        (board[rank][i].getIcon().charAt(1) == 'Q')) {
+                        attackHor = true;
+                    }
+                }
+            }
+        }
+
+        //Add moves to the left of the rook to horizontal moves
+        for (int i = file; i > -1; i--) {
+            if (i != file) {
+                if (board[rank][i].getIcon().charAt(0) == icon.charAt(0)) {
+                    if (board[rank][i].getIcon().charAt(1) == 'K') {
+                        defendHor = true;
+                    } else {
+                        break;
+                    }
+                } else if (board[rank][i].getIcon().charAt(0) != icon.charAt(0) && board[rank][i].getIcon().charAt(0) != '0') {
+                    if ((board[rank][i].getIcon().charAt(1) == 'R') ||
+                        (board[rank][i].getIcon().charAt(1) == 'Q')) {
+                        attackHor = true;
+                    }
+                }
+            }
+        }
+        //TopLeft = \ TopRight = /
+
+        //Right down
+        for (int i = 1; i < 8; i++) {
+            try {
+                if (board[rank + i][file + i].getIcon().charAt(0) != icon.charAt(0) &&
+                    board[rank + i][file + i].getIcon().charAt(0) != '0') {
+                    if ((board[rank + i][file + i].getIcon().charAt(1) == 'B') ||
+                        (board[rank + i][file + i].getIcon().charAt(1) == 'Q')) {
+                        attackTopLdownR = true;
+                    }
+                } else if (board[rank + i][file + i].getIcon().charAt(0) == icon.charAt(0)) {
+                    if (board[rank + i][file + i].getIcon().charAt(1) == 'K') {
+                        defendTopLdownR = true;
+                    }
+                }
+            } catch (ArrayIndexOutOfBoundsException error) {
+                break;
+            }
+        }
+
+        //Up left
+        for (int i = 1; i < 8; i++) {
+            try {
+                if (board[rank - i][file - i].getIcon().charAt(0) != icon.charAt(0) &&
+                    board[rank - i][file - i].getIcon().charAt(0) != '0') {
+                    if ((board[rank - i][file - i].getIcon().charAt(1) == 'B') ||
+                        (board[rank - i][file - i].getIcon().charAt(1) == 'Q')) {
+                        attackTopLdownR = true;
+                    }
+                } else if (board[rank - i][file - i].getIcon().charAt(0) == icon.charAt(0)) {
+                    if (board[rank - i][file - i].getIcon().charAt(1) == 'K') {
+                        defendTopLdownR = true;
+                    }
+                }
+            } catch (ArrayIndexOutOfBoundsException error) {
+                break;
+            }
+        }
+
+        //Down left
+        for (int i = 1; i < 8; i++) {
+            try {
+                if (board[rank + i][file - i].getIcon().charAt(0) != icon.charAt(0) &&
+                    board[rank + i][file - i].getIcon().charAt(0) != '0') {
+                    if ((board[rank + i][file - i].getIcon().charAt(1) == 'B') ||
+                        (board[rank + i][file - i].getIcon().charAt(1) == 'Q')) {
+                        attackTopRdownL = true;
+                    }
+                } else if (board[rank + i][file - i].getIcon().charAt(0) == icon.charAt(0)) {
+                    if (board[rank + i][file - i].getIcon().charAt(1) == 'K') {
+                        defendTopRdownL = true;
+                    }
+                }
+            } catch (ArrayIndexOutOfBoundsException error) {
+                break;
+            }
+        }
+
+        //Up right
+        for (int i = 1; i < 8; i++) {
+            try {
+                if (board[rank - i][file + i].getIcon().charAt(0) != icon.charAt(0) &&
+                    board[rank - i][file + i].getIcon().charAt(0) != '0') {
+                    if ((board[rank - i][file + i].getIcon().charAt(1) == 'B') ||
+                        (board[rank - i][file + i].getIcon().charAt(1) == 'Q')) {
+                        attackTopRdownL = true;
+                    }
+                } else if (board[rank - i][file + i].getIcon().charAt(0) == icon.charAt(0)) {
+                    if (board[rank - i][file + i].getIcon().charAt(1) == 'K') {
+                        defendTopRdownL = true;
+                    }
+                }
+            } catch (ArrayIndexOutOfBoundsException error) {
+                break;
+            }
+        }
+
+        if (attackVer && defendVer) {
+            return "Vertical";
+        } else if (attackHor && defendHor) {
+            return "Horizontal";
+        } else if (attackTopLdownR && defendTopLdownR) {
+            return "TopLeft";
+        } else if (attackTopRdownL && defendTopRdownL) {
+            return "TopRight";
+        }
+
+        return "None";
     }
 
     //SETTERS
