@@ -1,4 +1,4 @@
-# Terminal Chess made with Java
+# Terminal Chess made in Java
 To try this project download and open the repository in a Java IDE and run `Main.java`
 
 <img width="192" alt="Screenshot 2024-12-27 171913" src="https://github.com/user-attachments/assets/3582df28-5089-417b-b448-1ef0236deec5" />
