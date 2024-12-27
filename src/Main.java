@@ -84,6 +84,8 @@ public class Main {
         //Start game loop
         while (true) {
             boolean checkmate = false;
+            boolean whiteCheck = false;
+            boolean blackCheck = false;
 
             for (int i = 0; i < board.length; i++) {
                 for (int j = 0; j < board[i].length; j++) {
@@ -92,12 +94,18 @@ public class Main {
                             System.out.println("Black Wins by Checkmate!");
                             checkmate = true;
                             break;
+                        } else if (board[i][j].checkIfCheck(board, "W")) {
+                            whiteCheck = true;
+                            break;
                         }
                     }
                     if (board[i][j].getIcon().equals("BK")) {
                         if (board[i][j].checkIfCheckmate(board, "B")) {
                             System.out.println("White Wins by Checkmate!");
                             checkmate = true;
+                            break;
+                        } else if (board[i][j].checkIfCheck(board, "B")) {
+                            blackCheck = true;
                             break;
                         }
                     }
@@ -178,7 +186,11 @@ public class Main {
                 String newRankString = ranks.get(String.valueOf(newRankChar));
                 int newRank = Integer.parseInt(newRankString);
 
-                if ((board[rank][file].getIcon().charAt(1) == 'K' && !board[rank][file].hasMoved()) && (newRank == rank && newFile == file + 2)) {
+                if (whiteCheck && !board[rank][file].equals("WK")) {
+                    System.out.println("Invalid Move!");
+                } else if (blackCheck && !board[rank][file].equals("BK")) {
+                    System.out.println("Invalid Move!");
+                } else if ((board[rank][file].getIcon().charAt(1) == 'K' && !board[rank][file].hasMoved()) && (newRank == rank && newFile == file + 2)) {
                     if (board[rank][file + 3].getIcon().charAt(1) == 'R' && !board[rank][file + 3].hasMoved() &&
                         board[rank][file + 1].getIcon().equals("00") &&
                         board[rank][file + 2].getIcon().equals("00")) {
