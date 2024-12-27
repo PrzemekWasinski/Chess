@@ -7,7 +7,7 @@ Above is a screenshot of the chess board showing the Queen's Gambit opening, whe
 and select where you want to move it (for example E4). After a piece and a move is selected the code will determine if the move is legal or not and let you 
 move or let you choose a different move. The move counter can be seen in the bottom left corner of the chess board.
 
-Currently the game is only winnable via a basic checkmate, draws have not beein implemented yet.
+Currently the game only ends upon a basic checkmate or a stalemate and the winner is displayed in the terminal.
 
 # Pieces
 Each piece has its own icon on the terminal chess board where the first letter is the piece's colour and second letter is the actual piece. A key can be seen below:
