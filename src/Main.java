@@ -84,6 +84,7 @@ public class Main {
         //Start game loop
         while (true) {
             boolean checkmate = false;
+            boolean stalemate = false;
             boolean whiteCheck = false;
             boolean blackCheck = false;
 
@@ -93,26 +94,30 @@ public class Main {
                         if (board[i][j].checkIfCheckmate(board, "W")) {
                             System.out.println("Black Wins by Checkmate!");
                             checkmate = true;
-                            break;
                         } else if (board[i][j].checkIfCheck(board, "W")) {
                             whiteCheck = true;
-                            break;
+                        } else if (board[i][j].isStalemate(board, "W")) {
+                            System.out.println("Draw by Stalemate!");
+                            stalemate = true;
                         }
+                        break;
                     }
                     if (board[i][j].getIcon().equals("BK")) {
                         if (board[i][j].checkIfCheckmate(board, "B")) {
                             System.out.println("White Wins by Checkmate!");
                             checkmate = true;
-                            break;
                         } else if (board[i][j].checkIfCheck(board, "B")) {
                             blackCheck = true;
-                            break;
+                        } else if (board[i][j].isStalemate(board, "W")) {
+                            System.out.println("Draw by Stalemate!");
+                            stalemate = true;
                         }
+                        break;
                     }
                 }
             }
 
-            if (checkmate) {
+            if (checkmate || stalemate) {
                 break;
             }
 

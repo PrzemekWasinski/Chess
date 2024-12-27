@@ -143,6 +143,43 @@ public class Square {
                 break;
             }
         }
+
+        int[][] knightSquares = {
+            {rank + 2, file + 1},
+            {rank + 2, file - 1},
+            {rank - 2, file + 1},
+            {rank - 2, file - 1},
+            {rank + 1, file + 2},
+            {rank - 1, file + 2},
+            {rank + 1, file - 2},
+            {rank - 1, file - 2}
+        };
+
+        for (int i = 0; i < knightSquares.length; i++) {
+            if (board[knightSquares[i][0]][knightSquares[i][1]].getIcon().charAt(0) != icon.charAt(0) &&
+                board[knightSquares[i][0]][knightSquares[i][1]].getIcon().charAt(0) == 'K') {
+                return true;
+            }
+        }
+
+        int[][] pawnSquares;
+
+        if (icon.charAt(0) == 'W') {
+            pawnSquares = new int[][]{
+                {rank - 1, file - 1},
+                {rank - 1, file + 1}
+            };
+        } else {
+            pawnSquares = new int[][]{
+                {rank + 1, file - 1},
+                {rank + 1, file + 1}
+            };
+        }
+
+        if (board[pawnSquares[0][0]][pawnSquares[0][1]].icon.charAt(0) != icon.charAt(0) &&
+            board[pawnSquares[0][0]][pawnSquares[0][1]].icon.charAt(1) == 'P') {
+            return true;
+        }
         return false;
     }
 
@@ -171,10 +208,38 @@ public class Square {
                     continue;
                 }
             }
-
             return true;
         }
+        return false;
+    }
 
+    /////////////
+    //STALEMATE//
+    /////////////
+    public boolean isStalemate(Square[][] board, String colour) {
+        if (!board[rank][file].checkIfCheck(board, colour)) {
+            int[][] squares = {
+                {rank + 1, file},
+                {rank - 1, file},
+                {rank, file + 1},
+                {rank, file - 1},
+                {rank + 1, file + 1},
+                {rank - 1, file - 1},
+                {rank + 1, file - 1},
+                {rank - 1, file + 1}
+            };
+
+            for (int i = 0; i < squares.length; i++) {
+                try {
+                    if (!board[squares[i][0]][squares[i][1]].checkIfCheck(board, colour)) {
+                        return false;
+                    }
+                } catch (ArrayIndexOutOfBoundsException error) {
+                    continue;
+                }
+            }
+            return true;
+        }
         return false;
     }
 
