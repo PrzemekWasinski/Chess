@@ -40,13 +40,13 @@ public class Main {
         board[0][6] = new Knight(0, 6, "BN", false);
 
         //Spawn pawns
-//        for (int i = 0; i < 16; i++) {
-//            if (i < 8) {
-//                board[6][i] = new Pawn(6, i, "WP", false);
-//            } else {
-//                board[1][i - 8] = new Pawn(1, i - 8, "BP", false);
-//            }
-//        }
+        for (int i = 0; i < 16; i++) {
+            if (i < 8) {
+                board[6][i] = new Pawn(6, i, "WP", false);
+            } else {
+                board[1][i - 8] = new Pawn(1, i - 8, "BP", false);
+            }
+        }
 
         //Hashmap to convert rank input to array index
         Map<String, String> ranks = new HashMap<String, String>();
@@ -113,6 +113,27 @@ public class Main {
 
             Scanner sc = new Scanner(System.in);
             String input = sc.next();
+            boolean validInput = false;
+
+            char[] letters = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
+            char[] numbers = {'1', '2', '3', '4', '5', '6', '7', '8'};
+
+            while (!validInput) {
+                if (input.length() == 2) {
+                    if (new String(letters).contains(String.valueOf(input.charAt(0))) &&
+                        new String(numbers).contains(String.valueOf(input.charAt(1)))) {
+                        validInput = true;
+                    } else {
+                        System.out.println("Invalid Input!");
+                        System.out.print("Select a piece to move: ");
+                        input = sc.next();
+                    }
+                } else {
+                    System.out.println("Invalid Input!");
+                    System.out.print("Select a piece to move: ");
+                    input = sc.next();
+                }
+            }
 
             //Convert user's selected piece to array index
             char fileChar = input.charAt(0);
@@ -130,6 +151,24 @@ public class Main {
 
                 Scanner sc2 = new Scanner(System.in);
                 String moveInput = sc2.next();
+                validInput = false;
+
+                while (!validInput) {
+                    if (moveInput.length() == 2) {
+                        if (new String(letters).contains(String.valueOf(moveInput.charAt(0))) &&
+                            new String(numbers).contains(String.valueOf(moveInput.charAt(1)))) {
+                            validInput = true;
+                        } else {
+                            System.out.println("Invalid Input!");
+                            System.out.print("Select a piece to move: ");
+                            moveInput = sc.next();
+                        }
+                    } else {
+                        System.out.println("Invalid Input!");
+                        System.out.print("Select a piece to move: ");
+                        moveInput = sc.next();
+                    }
+                }
 
                 char newFileChar = moveInput.charAt(0);
                 String newFileString = files.get(String.valueOf(newFileChar));
@@ -140,8 +179,7 @@ public class Main {
                 int newRank = Integer.parseInt(newRankString);
 
                 if ((board[rank][file].getIcon().charAt(1) == 'K' && !board[rank][file].hasMoved()) && (newRank == rank && newFile == file + 2)) {
-                    if (board[rank][file + 3].getIcon().charAt(1) == 'R' &&
-                        !board[rank][file + 3].hasMoved() &&
+                    if (board[rank][file + 3].getIcon().charAt(1) == 'R' && !board[rank][file + 3].hasMoved() &&
                         board[rank][file + 1].getIcon().equals("00") &&
                         board[rank][file + 2].getIcon().equals("00")) {
 
@@ -161,12 +199,11 @@ public class Main {
                         System.out.println("Invalid Move!");
                     }
 
-                } else if ((board[rank][file].getIcon().charAt(1) == 'K' && !board[rank][file].hasMoved()) && (newRank == rank && newFile == file + 2)) {
-                    if (board[rank][file - 4].getIcon().charAt(1) == 'R' &&
-                        !board[rank][file - 4].hasMoved() &&
+                } else if ((board[rank][file].getIcon().charAt(1) == 'K' && !board[rank][file].hasMoved()) && (newRank == rank && newFile == file - 2)) {
+                    if (board[rank][file - 4].getIcon().charAt(1) == 'R' && !board[rank][file - 4].hasMoved() &&
                         board[rank][file - 1].getIcon().equals("00") &&
                         board[rank][file - 2].getIcon().equals("00") &&
-                        board[rank][file - 2].getIcon().equals("00") ) {
+                        board[rank][file - 3].getIcon().equals("00")) {
 
                         if (!board[rank][file].checkIfCheck(board, String.valueOf(board[rank][file].getIcon().charAt(0))) &&
                             !board[rank][file - 1].checkIfCheck(board, String.valueOf(board[rank][file].getIcon().charAt(0))) &&

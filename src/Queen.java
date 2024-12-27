@@ -218,7 +218,7 @@ public class Queen extends Square {
         boolean pinnedTopLdownR = atkTopLdownR && defTopLdownR;
         boolean pinnedTopRdownL = atkTopRdownL && defTopRdownL;
 
-        if (!pinnedHorizontal) {
+        if (!pinnedHorizontal && !pinnedTopLdownR && !pinnedTopRdownL) {
             for (int i = 0; i < verticalMoves.size(); i++) {
                 if (verticalMoves.get(i)[0] == newPosition[0] && verticalMoves.get(i)[1] == newPosition[1]) {
                     board[newRank][newFile] = new Queen(newRank, newFile, icon, true);
@@ -227,7 +227,7 @@ public class Queen extends Square {
             }
         }
 
-        if (!pinnedVertical) {
+        if (!pinnedVertical&& !pinnedTopLdownR && !pinnedTopRdownL) {
             for (int i = 0; i < horizontalMoves.size(); i++) {
                 if (horizontalMoves.get(i)[0] == newPosition[0] && horizontalMoves.get(i)[1] == newPosition[1]) {
                     board[newRank][newFile] = new Queen(newRank, newFile, icon, true);
@@ -236,7 +236,7 @@ public class Queen extends Square {
             }
         }
 
-        if (!pinnedTopLdownR) {
+        if (!pinnedTopRdownL && !pinnedHorizontal && !pinnedVertical) {
             for (int i = 0; i < topLdownRmoves.size(); i++) {
                 if (topLdownRmoves.get(i)[0] == newPosition[0] && topLdownRmoves.get(i)[1] == newPosition[1]) {
                     board[newRank][newFile] = new Queen(newRank, newFile, icon, true);
@@ -245,7 +245,7 @@ public class Queen extends Square {
             }
         }
 
-        if (!pinnedTopRdownL) {
+        if (!pinnedTopLdownR && !pinnedHorizontal && !pinnedVertical) {
             for (int i = 0; i < topRdownLmoves.size(); i++) {
                 if (topRdownLmoves.get(i)[0] == newPosition[0] && topRdownLmoves.get(i)[1] == newPosition[1]) {
                     board[newRank][newFile] = new Queen(newRank, newFile, icon, true);

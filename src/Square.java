@@ -22,7 +22,9 @@ public class Square {
         //Vertical and horizontal squares
         for (int i = rank; i < board.length; i++) {
             if (i != rank) {
-                if (board[i][file].getIcon().charAt(0) != colour.charAt(0) &&
+                if (board[i][file].getIcon().charAt(0) == colour.charAt(0)) {
+                    break;
+                } else if (board[i][file].getIcon().charAt(0) != colour.charAt(0) &&
                     board[i][file].getIcon().charAt(0) != '0') {
                     if ((board[i][file].getIcon().charAt(1) == 'R') ||
                         (board[i][file].getIcon().charAt(1) == 'Q')) {
@@ -34,7 +36,9 @@ public class Square {
 
         for (int i = rank; i > -1; i--) {
             if (i != rank) {
-                if (board[i][file].getIcon().charAt(0) != colour.charAt(0) &&
+                if (board[i][file].getIcon().charAt(0) == colour.charAt(0)) {
+                    break;
+                } else if (board[i][file].getIcon().charAt(0) != colour.charAt(0) &&
                     board[i][file].getIcon().charAt(0) != '0') {
                     if ((board[i][file].getIcon().charAt(1) == 'R') ||
                         (board[i][file].getIcon().charAt(1) == 'Q')) {
@@ -46,7 +50,9 @@ public class Square {
 
         for (int i = file; i < board[rank].length; i++) {
             if (i != file) {
-                if (board[rank][i].getIcon().charAt(0) != colour.charAt(0) &&
+                if (board[i][file].getIcon().charAt(0) == colour.charAt(0)) {
+                    break;
+                } else if (board[rank][i].getIcon().charAt(0) != colour.charAt(0) &&
                     board[rank][i].getIcon().charAt(0) != '0') {
                     if ((board[rank][i].getIcon().charAt(1) == 'R') ||
                         (board[rank][i].getIcon().charAt(1) == 'Q')) {
@@ -58,7 +64,9 @@ public class Square {
 
         for (int i = file; i > -1; i--) {
             if (i != file) {
-                if (board[rank][i].getIcon().charAt(0) != colour.charAt(0) &&
+                if (board[i][file].getIcon().charAt(0) == colour.charAt(0)) {
+                    break;
+                } else if (board[rank][i].getIcon().charAt(0) != colour.charAt(0) &&
                     board[rank][i].getIcon().charAt(0) != '0') {
                     if ((board[rank][i].getIcon().charAt(1) == 'R') ||
                         (board[rank][i].getIcon().charAt(1) == 'Q')) {
@@ -71,7 +79,9 @@ public class Square {
         //Down and right
         for (int i = 1; i < 8; i++) {
             try {
-                if (board[rank + i][file + i].getIcon().charAt(0) != colour.charAt(0) &&
+                 if (board[i][file].getIcon().charAt(0) == colour.charAt(0)) {
+                    break;
+                } else if (board[rank + i][file + i].getIcon().charAt(0) != colour.charAt(0) &&
                     board[rank + i][file + i].getIcon().charAt(0) != '0') {
                     if ((board[rank + i][file + i].getIcon().charAt(1) == 'B') ||
                         (board[rank + i][file + i].getIcon().charAt(1) == 'Q')) {
@@ -86,7 +96,9 @@ public class Square {
         //Down and left
         for (int i = 1; i < 8; i++) {
             try {
-                if (board[rank + i][file - i].getIcon().charAt(0) != colour.charAt(0) &&
+                if (board[i][file].getIcon().charAt(0) == colour.charAt(0)) {
+                    break;
+                } else if (board[rank + i][file - i].getIcon().charAt(0) != colour.charAt(0) &&
                     board[rank + i][file - i].getIcon().charAt(0) != '0') {
                     if ((board[rank + i][file - i].getIcon().charAt(1) == 'B') ||
                         (board[rank + i][file - i].getIcon().charAt(1) == 'Q')) {
@@ -101,7 +113,9 @@ public class Square {
         //Up and right
         for (int i = 1; i < 8; i++) {
             try {
-                if (board[rank - i][file + i].getIcon().charAt(0) != colour.charAt(0) &&
+                if (board[i][file].getIcon().charAt(0) == colour.charAt(0)) {
+                    break;
+                } else if (board[rank - i][file + i].getIcon().charAt(0) != colour.charAt(0) &&
                     board[rank - i][file + i].getIcon().charAt(0) != '0') {
                     if ((board[rank - i][file + i].getIcon().charAt(1) == 'B') ||
                         (board[rank - i][file + i].getIcon().charAt(1) == 'Q')) {
@@ -116,7 +130,9 @@ public class Square {
         //Up and left
         for (int i = 1; i < 8; i++) {
             try {
-                if (board[rank - i][file - i].getIcon().charAt(0) != colour.charAt(0) &&
+                if (board[i][file].getIcon().charAt(0) == colour.charAt(0)) {
+                    break;
+                } else if (board[rank - i][file - i].getIcon().charAt(0) != colour.charAt(0) &&
                     board[rank - i][file - i].getIcon().charAt(0) != '0') {
                     if ((board[rank - i][file - i].getIcon().charAt(1) == 'B') ||
                         (board[rank - i][file - i].getIcon().charAt(1) == 'Q')) {
@@ -248,8 +264,6 @@ public class Square {
                 }
             }
         }
-        //TopLeft = \ TopRight = /
-
         //Right down
         for (int i = 1; i < 8; i++) {
             try {
@@ -331,9 +345,9 @@ public class Square {
         } else if (attackHor && defendHor) {
             return "Horizontal";
         } else if (attackTopLdownR && defendTopLdownR) {
-            return "TopLeft";
+            return "TopLdownR";
         } else if (attackTopRdownL && defendTopRdownL) {
-            return "TopRight";
+            return "TopRdownL";
         }
 
         return "None";
