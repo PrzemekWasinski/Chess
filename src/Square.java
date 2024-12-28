@@ -156,9 +156,13 @@ public class Square {
         };
 
         for (int i = 0; i < knightSquares.length; i++) {
-            if (board[knightSquares[i][0]][knightSquares[i][1]].getIcon().charAt(0) != icon.charAt(0) &&
-                board[knightSquares[i][0]][knightSquares[i][1]].getIcon().charAt(0) == 'K') {
-                return true;
+            try {
+                if (board[knightSquares[i][0]][knightSquares[i][1]].getIcon().charAt(0) != icon.charAt(0) &&
+                        board[knightSquares[i][0]][knightSquares[i][1]].getIcon().charAt(0) == 'K') {
+                    return true;
+                }
+            } catch (ArrayIndexOutOfBoundsException error) {
+                continue;
             }
         }
 
@@ -176,10 +180,20 @@ public class Square {
             };
         }
 
-        if (board[pawnSquares[0][0]][pawnSquares[0][1]].icon.charAt(0) != icon.charAt(0) &&
-            board[pawnSquares[0][0]][pawnSquares[0][1]].icon.charAt(1) == 'P') {
-            return true;
-        }
+        try {
+            if (board[pawnSquares[0][0]][pawnSquares[0][1]].icon.charAt(0) != icon.charAt(0) &&
+                    board[pawnSquares[0][0]][pawnSquares[0][1]].icon.charAt(1) == 'P') {
+                return true;
+            }
+        } catch (ArrayIndexOutOfBoundsException error) {}
+
+        try {
+            if (board[pawnSquares[1][0]][pawnSquares[1][1]].icon.charAt(0) != icon.charAt(0) &&
+                    board[pawnSquares[1][0]][pawnSquares[1][1]].icon.charAt(1) == 'P') {
+                return true;
+            }
+        } catch (ArrayIndexOutOfBoundsException error) {}
+
         return false;
     }
 
@@ -414,30 +428,7 @@ public class Square {
         } else if (attackTopRdownL && defendTopRdownL) {
             return "TopRdownL";
         }
-
         return "None";
-    }
-
-    //SETTERS
-    void setRank(int newRank) {
-        this.rank = newRank;
-    }
-
-    void setFile(int newFile) {
-        this.file = newFile;
-    }
-
-    void setIcon(String newIcon) {
-        this.icon = newIcon;
-    }
-
-    //GETTERS
-    int getRank() {
-        return rank;
-    }
-
-    int getFile() {
-        return file;
     }
 
     String getIcon() {
