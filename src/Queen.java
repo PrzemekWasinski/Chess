@@ -7,6 +7,7 @@ public class Queen extends Square {
     }
 
     public boolean move(Square[][] board, int newRank, int newFile) {
+        //Array to store available moves
         ArrayList<int[]> verticalMoves = new ArrayList<int[]>();
         ArrayList<int[]> horizontalMoves = new ArrayList<int[]>();
         ArrayList<int[]> topLdownRmoves = new ArrayList<int[]>();
@@ -24,6 +25,7 @@ public class Queen extends Square {
         boolean atkTopRdownL = false;
         boolean defTopRdownL = false;
 
+        //Add moves below the queen and check if the queen is pinned
         for (int i = rank; i < board.length; i++) {
             if (i != rank) {
                 if (board[i][file].getIcon().charAt(1) == 'K') {
@@ -47,7 +49,7 @@ public class Queen extends Square {
             }
         }
 
-        //Add squares above rook to vertical moves
+        //Above
         for (int i = rank; i > -1; i--) {
             if (i != rank) {
                 if (board[i][file].getIcon().charAt(1) == 'K') {
@@ -71,7 +73,7 @@ public class Queen extends Square {
             }
         }
 
-        //Add squares to the right of the rook to horizontal moves
+        //To the right
         for (int i = file; i < board[rank].length; i++) {
             if (i != file) {
                 if (board[rank][i].getIcon().charAt(1) == 'K') {
@@ -95,7 +97,7 @@ public class Queen extends Square {
             }
         }
 
-        //Add moves to the left of the rook to horizontal moves
+        //To the left
         for (int i = file; i > -1; i--) {
             if (i != file) {
                 if (board[rank][i].getIcon().charAt(1) == 'K') {
@@ -119,6 +121,7 @@ public class Queen extends Square {
             }
         }
 
+        //Below to the right
         for (int i = 1; i < 8; i++) {
             try {
                 if (board[rank + i][file + i].getIcon().charAt(0) != icon.charAt(0) &&
@@ -142,7 +145,7 @@ public class Queen extends Square {
             }
         }
 
-        //Up left
+        //Above to the left
         for (int i = 1; i < 8; i++) {
             try {
                 if (board[rank - i][file - i].getIcon().charAt(0) != icon.charAt(0) &&
@@ -165,7 +168,7 @@ public class Queen extends Square {
             }
         }
 
-        //Down left
+        //Below to the left
         for (int i = 1; i < 8; i++) {
             try {
                 if (board[rank + i][file - i].getIcon().charAt(0) != icon.charAt(0) &&
@@ -188,7 +191,7 @@ public class Queen extends Square {
             }
         }
 
-        //Up right
+        //Above to the right
         for (int i = 1; i < 8; i++) {
             try {
                 if (board[rank - i][file + i].getIcon().charAt(0) != icon.charAt(0) &&
@@ -218,6 +221,7 @@ public class Queen extends Square {
         boolean pinnedTopLdownR = atkTopLdownR && defTopLdownR;
         boolean pinnedTopRdownL = atkTopRdownL && defTopRdownL;
 
+        //Check if user's move is in available moves array and if the queen isn't pinned
         if (!pinnedHorizontal && !pinnedTopLdownR && !pinnedTopRdownL) {
             for (int i = 0; i < verticalMoves.size(); i++) {
                 if (verticalMoves.get(i)[0] == newPosition[0] && verticalMoves.get(i)[1] == newPosition[1]) {

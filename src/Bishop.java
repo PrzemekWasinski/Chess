@@ -7,6 +7,7 @@ public class Bishop extends Square {
     }
 
     public boolean move(Square[][] board, int newRank, int newFile) {
+        //Arrays for storing available moves
         ArrayList<int[]> topLdownRmoves = new ArrayList<int[]>();
         ArrayList<int[]> topRdownLmoves = new ArrayList<int[]>();
 
@@ -16,6 +17,7 @@ public class Bishop extends Square {
         boolean atkTopRdownL = false;
         boolean defTopRdownL = false;
 
+        //Add squares diagonally below to the right of the bishop
         for (int i = 1; i < 8; i++) {
             try {
                 if (board[rank + i][file + i].getIcon().charAt(0) != icon.charAt(0) &&
@@ -39,7 +41,7 @@ public class Bishop extends Square {
             }
         }
 
-        //Up left
+        //Above to the Left
         for (int i = 1; i < 8; i++) {
             try {
                 if (board[rank - i][file - i].getIcon().charAt(0) != icon.charAt(0) &&
@@ -62,7 +64,7 @@ public class Bishop extends Square {
             }
         }
 
-        //Down left
+        //Below to the left
         for (int i = 1; i < 8; i++) {
             try {
                 if (board[rank + i][file - i].getIcon().charAt(0) != icon.charAt(0) &&
@@ -85,7 +87,7 @@ public class Bishop extends Square {
             }
         }
 
-        //Up right
+        //Above to the right
         for (int i = 1; i < 8; i++) {
             try {
                 if (board[rank - i][file + i].getIcon().charAt(0) != icon.charAt(0) &&
@@ -113,6 +115,7 @@ public class Bishop extends Square {
         boolean pinnedTopLdownR = atkTopLdownR && defTopLdownR;
         boolean pinnedTopRdownL = atkTopRdownL && defTopRdownL;
 
+        //Check if the user's move is in available moves array and the bishop isn't pinned
         if (!pinnedTopLdownR) {
             for (int i = 0; i < topLdownRmoves.size(); i++) {
                 if (topLdownRmoves.get(i)[0] == newPosition[0] && topLdownRmoves.get(i)[1] == newPosition[1]) {

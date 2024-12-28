@@ -4,6 +4,7 @@ public class King extends Square {
     }
 
     public boolean move(Square[][] board, int newRank, int newFile) {
+        //Available moves
         int[][] moves = {
             {rank + 1, file},
             {rank - 1, file},
@@ -15,14 +16,19 @@ public class King extends Square {
             {rank - 1, file + 1}
         };
 
+        //Check if user's move is in the array and check if it is safe
         for (int i = 0; i < moves.length; i++) {
-            if (moves[i][0] == newRank && moves[i][1] == newFile) {
-                if (board[newRank][newFile].checkIfCheck(board, String.valueOf(icon.charAt(0)))) {
-                    return false;
-                } else {
-                    board[newRank][newFile] = new King(newRank, newFile, icon, true);
-                    return true;
+            try {
+                if (moves[i][0] == newRank && moves[i][1] == newFile) {
+                    if (board[newRank][newFile].checkIfCheck(board, String.valueOf(icon.charAt(0)))) {
+                        return false;
+                    } else {
+                        board[newRank][newFile] = new King(newRank, newFile, icon, true);
+                        return true;
+                    }
                 }
+            } catch (ArrayIndexOutOfBoundsException error) {
+                continue;
             }
         }
         return false;

@@ -40,13 +40,13 @@ public class Main {
         board[0][6] = new Knight(0, 6, "BN", false);
 
         //Spawn pawns
-//        for (int i = 0; i < 16; i++) {
-//            if (i < 8) {
-//                board[6][i] = new Pawn(6, i, "WP", false);
-//            } else {
-//                board[1][i - 8] = new Pawn(1, i - 8, "BP", false);
-//            }
-//        }
+        for (int i = 0; i < 16; i++) {
+            if (i < 8) {
+                board[6][i] = new Pawn(6, i, "WP", false);
+            } else {
+                board[1][i - 8] = new Pawn(1, i - 8, "BP", false);
+            }
+        }
 
         //Hashmap to convert rank input to array index
         Map<String, String> ranks = new HashMap<String, String>();
@@ -88,6 +88,7 @@ public class Main {
             boolean whiteCheck = false;
             boolean blackCheck = false;
 
+            //Check for check, checkmate and stalemate
             for (int i = 0; i < board.length; i++) {
                 for (int j = 0; j < board[i].length; j++) {
                     if (board[i][j].getIcon().equals("WK")) {
@@ -117,36 +118,14 @@ public class Main {
                 }
             }
 
+            //End game if checkmate or stalemate
             if (checkmate || stalemate) {
                 break;
             }
 
             //Get user's selected piece
             System.out.print("Select a piece to move: ");
-
-            Scanner sc = new Scanner(System.in);
-            String input = sc.next();
-            boolean validInput = false;
-
-            char[] letters = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
-            char[] numbers = {'1', '2', '3', '4', '5', '6', '7', '8'};
-
-            while (!validInput) {
-                if (input.length() == 2) {
-                    if (new String(letters).contains(String.valueOf(input.charAt(0))) &&
-                        new String(numbers).contains(String.valueOf(input.charAt(1)))) {
-                        validInput = true;
-                    } else {
-                        System.out.println("Invalid Input!");
-                        System.out.print("Select a piece to move: ");
-                        input = sc.next();
-                    }
-                } else {
-                    System.out.println("Invalid Input!");
-                    System.out.print("Select a piece to move: ");
-                    input = sc.next();
-                }
-            }
+            String input = getInput();
 
             //Convert user's selected piece to array index
             char fileChar = input.charAt(0);
@@ -157,41 +136,24 @@ public class Main {
             String rankString = ranks.get(String.valueOf(rankChar));
             int rank = Integer.parseInt(rankString);
 
+            //Get user's move
+            System.out.print("Select where to move your " + board[rank][file].getIcon() + ": ");
+            String moveInput = getInput();
+
+            //Convert move into array index
+            char newFileChar = moveInput.charAt(0);
+            String newFileString = files.get(String.valueOf(newFileChar));
+            int newFile = Integer.parseInt(newFileString);
+
+            char newRankChar = moveInput.charAt(1);
+            String newRankString = ranks.get(String.valueOf(newRankChar));
+            int newRank = Integer.parseInt(newRankString);
+
+            //If it's the player's turn
             if ((board[rank][file].getIcon().charAt(0) == 'W' && moveCounter % 2 == 0) ||
                 (board[rank][file].getIcon().charAt(0) == 'B' && moveCounter % 2 != 0)) {
-
-                System.out.print("Select where to move your " + board[rank][file].getIcon() + ": ");
-
-                Scanner sc2 = new Scanner(System.in);
-                String moveInput = sc2.next();
-                validInput = false;
-
-                while (!validInput) {
-                    if (moveInput.length() == 2) {
-                        if (new String(letters).contains(String.valueOf(moveInput.charAt(0))) &&
-                            new String(numbers).contains(String.valueOf(moveInput.charAt(1)))) {
-                            validInput = true;
-                        } else {
-                            System.out.println("Invalid Input!");
-                            System.out.print("Select a piece to move: ");
-                            moveInput = sc.next();
-                        }
-                    } else {
-                        System.out.println("Invalid Input!");
-                        System.out.print("Select a piece to move: ");
-                        moveInput = sc.next();
-                    }
-                }
-
-                char newFileChar = moveInput.charAt(0);
-                String newFileString = files.get(String.valueOf(newFileChar));
-                int newFile = Integer.parseInt(newFileString);
-
-                char newRankChar = moveInput.charAt(1);
-                String newRankString = ranks.get(String.valueOf(newRankChar));
-                int newRank = Integer.parseInt(newRankString);
-
                 if (!whiteCheck && !blackCheck) {
+                    //If the user is trying to castle king side
                     if ((board[rank][file].getIcon().charAt(1) == 'K' && !board[rank][file].hasMoved()) && (newRank == rank && newFile == file + 2)) {
                         if (board[rank][file + 3].getIcon().charAt(1) == 'R' && !board[rank][file + 3].hasMoved() &&
                             board[rank][file + 1].getIcon().equals("00") &&
@@ -212,6 +174,7 @@ public class Main {
                             System.out.println("Invalid Move!");
                         }
 
+                    //If the user is trying to castle queen side
                     } else if ((board[rank][file].getIcon().charAt(1) == 'K' && !board[rank][file].hasMoved()) && (newRank == rank && newFile == file - 2)) {
                         if (board[rank][file - 4].getIcon().charAt(1) == 'R' && !board[rank][file - 4].hasMoved() &&
                             board[rank][file - 1].getIcon().equals("00") &&
@@ -234,13 +197,16 @@ public class Main {
                         } else {
                             System.out.println("Invalid Move!");
                         }
-                    } else if (board[rank][file].move(board, newRank, newFile)) { //If piece was moved successfully
-                        board[rank][file] = new Square(rank, file, "00", false); //Clear the old position
-                        moveCounter++; //Increment move counter
+                    //If the user is not castling
+                    } else if (board[rank][file].move(board, newRank, newFile)) {
+                        board[rank][file] = new Square(rank, file, "00", false);
+                        moveCounter++;
                     } else {
                         System.out.println("Invalid move!");
                     }
+                //If there is a check
                 } else {
+                    //Make a copy of the board
                     Square[][] tempBoard = new Square[8][8];
 
                     for (int i = 0; i < board.length; i++) {
@@ -249,10 +215,12 @@ public class Main {
                         }
                     }
 
+                    //Execute the user's move on the temporary board
                     if (tempBoard[rank][file].move(tempBoard, newRank, newFile)) {
                         tempBoard[rank][file] = new Square(rank, file, "00", false);
                     }
 
+                    //If the user's move stopped the check, execute the move on the real board
                     for (int i = 0; i < tempBoard.length; i++) {
                         for (int j = 0; j < tempBoard[i].length; j++) {
                             if (whiteCheck) {
@@ -350,5 +318,34 @@ public class Main {
         System.out.print("|");
         System.out.println();
         System.out.println("+-----------------------------+");
+    }
+
+    public static String getInput() {
+        //Get user's input
+        Scanner sc = new Scanner(System.in);
+        String input = sc.next();
+        boolean validInput = false;
+
+        char[] letters = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
+        char[] numbers = {'1', '2', '3', '4', '5', '6', '7', '8'};
+
+        //Validate input
+        while (!validInput) {
+            if (input.length() == 2) {
+                if (new String(letters).contains(String.valueOf(input.charAt(0))) &&
+                    new String(numbers).contains(String.valueOf(input.charAt(1)))) {
+                    validInput = true;
+                } else {
+                    System.out.println("Invalid Input!");
+                    System.out.print("Select a piece to move: ");
+                    input = sc.next();
+                }
+            } else {
+                System.out.println("Invalid Input!");
+                System.out.print("Select a piece to move: ");
+                input = sc.next();
+            }
+        }
+        return input;
     }
 }

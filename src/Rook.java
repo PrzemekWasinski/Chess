@@ -6,6 +6,7 @@ public class Rook extends Square {
     }
 
     public boolean move(Square[][] board, int newRank, int newFile) {
+        //Array to store available moves
         ArrayList<int[]> verticalMoves = new ArrayList<int[]>();
         ArrayList<int[]> horizontalMoves = new ArrayList<int[]>();
 
@@ -15,7 +16,7 @@ public class Rook extends Square {
         boolean attackHor = false;
         boolean defendHor = false;
 
-        //Add squares below rook to vertical moves
+        //Add squares below rook and check if it is pinned
         for (int i = rank; i < board.length; i++) {
             if (i != rank) {
                 if (board[i][file].getIcon().charAt(1) == 'K') {
@@ -39,7 +40,7 @@ public class Rook extends Square {
             }
         }
 
-        //Add squares above rook to vertical moves
+        //Below
         for (int i = rank; i > -1; i--) {
             if (i != rank) {
                 if (board[i][file].getIcon().charAt(1) == 'K') {
@@ -63,7 +64,7 @@ public class Rook extends Square {
             }
         }
 
-        //Add squares to the right of the rook to horizontal moves
+        //To the right
         for (int i = file; i < board[rank].length; i++) {
             if (i != file) {
                 if (board[rank][i].getIcon().charAt(1) == 'K') {
@@ -87,7 +88,7 @@ public class Rook extends Square {
             }
         }
 
-        //Add moves to the left of the rook to horizontal moves
+        //To the left
         for (int i = file; i > -1; i--) {
             if (i != file) {
                 if (board[rank][i].getIcon().charAt(1) == 'K') {
@@ -116,6 +117,7 @@ public class Rook extends Square {
         boolean pinnedVertical = defendVer && attackVer;
         boolean pinnedHorizontal = defendHor && attackHor;
 
+        //Check if user's move is in the available moves array and if rook is pinned
         if (!pinnedHorizontal) {
             for (int i = 0; i < verticalMoves.size(); i++) {
                 if (verticalMoves.get(i)[0] == newPosition[0] && verticalMoves.get(i)[1] == newPosition[1]) {

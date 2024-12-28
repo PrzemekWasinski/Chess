@@ -8,12 +8,13 @@ public class Pawn extends Square {
     }
 
     public boolean move(Square[][] board, int newRank, int newFile) {
+        //Array to store available moves
         ArrayList<int[]> moves = new ArrayList<int[]>();
 
         String pinResult = board[rank][file].isPinned(board);
 
-        //Moving forwards
         if (icon.charAt(0) == 'W') {
+            //Moving forwards
             try {
                 if (board[rank - 1][file].getIcon().equals("00") &&
                     !pinResult.equals("Horizontal") &&
@@ -26,6 +27,7 @@ public class Pawn extends Square {
                 }
             } catch (ArrayIndexOutOfBoundsException error) {}
 
+            //Capturing diagonally
             try {
                 if (board[rank - 1][file - 1].getIcon().charAt(0) == 'B' &&
                     !pinResult.equals("Vertical") &&
@@ -45,6 +47,7 @@ public class Pawn extends Square {
             } catch (ArrayIndexOutOfBoundsException error) {}
 
         } else if (icon.charAt(0) == 'B') {
+            //Moving forwards
             try {
                 if (board[rank + 1][file].getIcon().equals("00") &&
                     !pinResult.equals("Horizontal") &&
@@ -57,6 +60,7 @@ public class Pawn extends Square {
                 }
             } catch (ArrayIndexOutOfBoundsException error) {}
 
+            //Capturing diagonally
             try {
                 if (board[rank + 1][file - 1].getIcon().charAt(0) == 'W' &&
                     !pinResult.equals("Vertical") &&
@@ -76,8 +80,10 @@ public class Pawn extends Square {
             } catch (ArrayIndexOutOfBoundsException error) {}
         }
 
+        //Check if user's move is in available moves array
         for (int i = 0; i < moves.size(); i++) {
             if (moves.get(i)[0] == newRank && moves.get(i)[1] == newFile) {
+                //If user is promoting
                 if ((icon.charAt(0) == 'W' && newRank == 0) || (icon.charAt(0) == 'B' && newRank == 7)) {
                     System.out.print("Q - Queen | R - Rook | B - Bishop | N - Knight: ");
 
@@ -105,6 +111,7 @@ public class Pawn extends Square {
                     }
 
                     return true;
+                //If user isn't promoting
                 } else {
                     board[newRank][newFile] = new Pawn(newRank, newFile, icon, true);
                     return true;
