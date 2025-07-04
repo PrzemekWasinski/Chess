@@ -1,5 +1,5 @@
-# Terminal Chess made in Java
-This is a working chess game that can be played via the terminal on an ASCII chess board, it lets the user choose and move pieces, determines if the selected move is legal and checks for draws and checkmates before every turn. To try this project download and open the repository in a Java IDE and run `Main.java` located inside of the `src` folder.
+# CLI Chess made in Java
+This is a working chess game that can be played via the CLI on an ASCII chess board, it lets the user choose and move pieces, determines if the selected move is legal and checks for draws and checkmates before every turn. To try this project download and open the repository in a Java IDE and run `Main.java` located inside of the `src` folder.
 
 <img width="192" alt="Screenshot 2024-12-27 171913" src="https://github.com/user-attachments/assets/3582df28-5089-417b-b448-1ef0236deec5" />
 
